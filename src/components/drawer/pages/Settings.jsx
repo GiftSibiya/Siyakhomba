@@ -27,7 +27,7 @@ export default function Settings() {
           </View>
           <View className="flex flex-row items-center m-2">
             <Image source={historyIcon} className="w-[35px] h-[35px]" />
-            <Text className="ml-3 font-bold text-lg ">Menu 1</Text>
+            <Text className="ml-3 font-bold text-lg ">have an about Section Here</Text>
           </View>
         </View>
       </View>
