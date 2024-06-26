@@ -4,6 +4,9 @@ import { useNavigation } from "@react-navigation/native"; // Import useNavigatio
 
 // Icons
 import historyIcon from "../../../assets/icons/icons8-history-100.png";
+import settingIcon from "../../../assets/icons/icons8-settings-100.png"
+import infoIcon from "../../../assets/icons/icons8-info-100.png"
+import savedIcon from "../../../assets/icons/icons8-save-close-100.png"
 
 const SideDrawerComp = () => {
   const navigation = useNavigation();
@@ -28,21 +31,21 @@ const SideDrawerComp = () => {
         </View>
         <View className="flex flex-col bg-white w-full h-[220px] p-2 rounded-2xl my-[20px]">
           <View className="flex flex-row items-center m-2">
-            <Image source={historyIcon} className="w-[35px] h-[35px]"/>
-            <Text className="ml-3 font-bold text-lg">Connections</Text>
-          </View>
-          <View className="flex flex-row items-center m-2">
-            <Image source={historyIcon} className="w-[35px] h-[35px]"/>
-            <Text className="ml-3 font-bold text-lg">Contact</Text>
+            <Image source={savedIcon} className="w-[35px] h-[35px]"/>
+            <Text className="ml-3 font-bold text-lg">My Trips</Text>
           </View>
           <TouchableOpacity className="flex flex-row items-center m-2" onPress={handleNavigateToSettings}>
-            <Image source={historyIcon} className="w-[35px] h-[35px]"/>
+            <Image source={settingIcon} className="w-[35px] h-[35px]"/>
             <Text className="ml-3 font-bold text-lg">Settings</Text>
           </TouchableOpacity>
           <View className="flex flex-row items-center m-2">
             <Image source={historyIcon} className="w-[35px] h-[35px]"/>
-            <Text className="ml-3 font-bold text-lg">Info</Text>
+            <Text className="ml-3 font-bold text-lg">Support</Text>
           </View>
+          <TouchableOpacity className="flex flex-row items-center m-2" onPress={handleNavigateToSettings}>
+            <Image source={infoIcon} className="w-[35px] h-[35px]"/>
+            <Text className="ml-3 font-bold text-lg">About</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
