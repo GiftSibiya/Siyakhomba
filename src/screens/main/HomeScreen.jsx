@@ -6,7 +6,12 @@ import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import menuImg from "../../../assets/icons/icons8-hamburger-menu-50.png";
 import SideDrawerComp from "../../components/drawer/SideDrawerComp";
+
+// Side Component
 import Settings from "../../components/drawer/pages/Settings";
+import MyTrips from "../../components/drawer/pages/MyTrips"
+import Support from "../../components/drawer/pages/Support"
+import About from "../../components/drawer/pages/About"
 
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
@@ -46,6 +51,9 @@ const AppDrawer = () => {
     <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideDrawerComp {...props} />}>
       <Drawer.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Drawer.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+      <Drawer.Screen name="MyTrips" component={MyTrips} options={{ headerShown: false }} />
+      <Drawer.Screen name="Support" component={Support} options={{ headerShown: false }} />
+      <Drawer.Screen name="About" component={About} options={{ headerShown: false }} />
     </Drawer.Navigator>
   );
 };
