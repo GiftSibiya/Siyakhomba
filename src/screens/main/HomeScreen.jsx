@@ -6,6 +6,9 @@ import BtmDrawer from "../../components/homescreen/BtmDrawer";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
+// JSON
+import rankData from "../../../assets/json/RankData.json"
+
 // Icons 
 import menuImg from "../../../assets/icons/icons8-hamburger-menu-50.png";
 import locateIcon from "../../../assets/icons/icons8-location-100.png"; // Add your own icon here
@@ -38,7 +41,7 @@ const HomeScreen = ({ navigation }) => {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location.coords);
     })();
-  }, []);
+  }, []); 
 
   const centerMapOnUser = async () => {
     if (!mapRef.current) return;
@@ -68,6 +71,23 @@ const HomeScreen = ({ navigation }) => {
           longitudeDelta: 0.0421}}>
           {location && (
           <Marker image={mapMarker} coordinate={{latitude: location.latitude, longitude: location.longitude}}/>)}
+
+            {rankData.map((RankData) => (
+            <Marker
+              key={RankData.rank_id}
+              coordinate={{
+                latitude: RankData.coordinates._lat,
+                longitude: RankData.coordinates._long,
+              }}
+              title={RankData.name} description={`Active Time: ${RankData.activeTime}`}
+              onPress={() => {
+                setSelectedRank(RankData);
+                console.log("Selected Rank:", RankData);
+              }}>
+              {/* <Image source={taxiRankIcon} style={styles.rankIcon} /> */}
+            </Marker>
+          ))}
+
       </MapView>
 
       {/* Side Drawer Button */}

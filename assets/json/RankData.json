@@ -1,0 +1,49 @@
+[
+    {
+      "rank_id": 1,
+      "name": "Ivory Park Taxi Rank",
+      "activeTime": "5:00 AM - 11:00 PM",
+      "coordinates": {
+        "_lat": -26.007124,
+        "_long": 28.182973
+      }
+
+    },
+    {
+      "rank_id": 2,
+      "name": "Oakmore Taxi Rank",
+      "activeTime": "6:00 AM - 10:00 PM",
+      "coordinates": {
+        "_lat": -26.006376,
+        "_long": 28.249306
+      }
+    },
+    {
+      "rank_id": 3,
+      "name": "Pretoria Taxi Rank",
+      "activeTime": "24 Hours",
+      "coordinates": {
+        "_lat": -25.744881, 
+        "_long": 28.192783
+      }
+    },
+    {
+      "rank_id": 4,
+      "name": "Zamani Taxi Rank",
+      "activeTime": "7:00 AM - 9:00 PM",
+      "coordinates": {
+        "_lat": -26.048980, 
+        "_long": 28.059108
+      }
+    },
+    {
+      "rank_id": 5,
+      "name": "MTN Noord Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -26.198952,
+        "_long": 28.048032
+      }
+    }
+  ]
+  
