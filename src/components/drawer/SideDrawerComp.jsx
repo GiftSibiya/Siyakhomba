@@ -33,7 +33,7 @@ const SideDrawerComp = () => {
           </View>
           <View className="flex flex-row items-center m-2">
             <Image source={historyIcon} className="w-[35px] h-[35px]"/>
-            <Text className="ml-3 font-bold text-lg">Contact</Text>
+            <Text className="ml-3 font-bold text-lg">Contact here</Text>
           </View>
           <TouchableOpacity className="flex flex-row items-center m-2" onPress={handleNavigateToSettings}>
             <Image source={historyIcon} className="w-[35px] h-[35px]"/>

@@ -6,9 +6,9 @@ import searchIcon from "../../../assets/icons/icons8-search-100.png";
 const BtmDrawer = () => {
   return (
     <View className="flex flex-column w-screen items-center">
-      <View className="flex flex-row bg-slate-200 w-[80%] rounded-3xl p-2">
-        <Image source={searchIcon} className="h-[40px] w-[40px] " />
-        <TextInput placeholder="Where To?" className="p-2 text-lg font-bold" />
+      <View className="flex flex-row items-center w-[80%] rounded-3xl p-2 border-[2px] border-black">
+        <Image source={searchIcon} className="h-[30px] w-[30px]" />
+        <TextInput placeholder="Where To?" className="px-[10px] text-lg font-bold ring-2 ring-slate-800" />
       </View>
     </View>
   );

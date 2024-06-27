@@ -12,13 +12,12 @@ export default function Settings() {
             <View className="w-[70px] h-[70px] bg-slate-200 rounded-full"></View>
             <View className="ml-2">
               <Text>User Name</Text>
-              <Text className="text-blue-500">View Account with settings</Text>
+              <Text className="text-blue-500">View Account with setting</Text>
             </View>
           </View>
           <View className="">
             <Text>Rating</Text>
           </View>
-
         </View>
         <View className="flex flex-col bg-white w-full h-[120px] p-2 rounded-2xl my-[20px]">
           <View className="flex flex-row items-center m-2">
