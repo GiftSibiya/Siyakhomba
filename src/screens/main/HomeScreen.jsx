@@ -46,7 +46,7 @@ const HomeScreen = ({ navigation }) => {
         longitude: location.coords.longitude,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
-      }, 1000); // Animation duration
+      }, 1000); // Animation duration Push the code bruh
     }
   };
 
