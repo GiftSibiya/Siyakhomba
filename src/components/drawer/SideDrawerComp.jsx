@@ -40,10 +40,6 @@ const SideDrawerComp = () => {
           </View>
         </View>
         <View className="flex flex-col bg-white w-full h-[220px] p-2 rounded-2xl my-[20px]">
-          <TouchableOpacity className="flex flex-row items-center m-2" onPress={handleNavigateToMyTrips}>
-            <Image source={savedIcon} className="w-[35px] h-[35px]"/>
-            <Text className="ml-3 font-bold text-lg">My Trips</Text>
-          </TouchableOpacity>
           <TouchableOpacity className="flex flex-row items-center m-2" onPress={handleNavigateToSettings}>
             <Image source={settingIcon} className="w-[35px] h-[35px]"/>
             <Text className="ml-3 font-bold text-lg">Settings</Text>

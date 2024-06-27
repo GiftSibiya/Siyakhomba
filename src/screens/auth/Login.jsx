@@ -1,6 +1,5 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import DrawerComp from "../../components/drawer/SideDrawerComp";
 
 const Login = ({ navigation }) => {
   return (
