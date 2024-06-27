@@ -45,6 +45,37 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
+    <View style={{ flex: 1 }}>
+      <MapView
+        ref={mapRef}
+        style={{ flex: 1 }}
+        showsCompass={true}
+        followsUserLocation={true}
+        region={
+          location
+            ? {
+                latitude: location.latitude,
+                longitude: location.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }
+            : {
+                latitude: -25.98953,
+                longitude: 28.12843,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }
+        }
+      >
+        {location && (
+          <Marker
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+          />
+        )}
+      </MapView>
 
       {/* Side Drawer Button */}
       <View style={styles.drawerButtonContainer}>
