@@ -7,8 +7,14 @@ import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import menuImg from "../../../assets/icons/icons8-hamburger-menu-50.png";
 import locateIcon from "../../../assets/icons/icons8-location-100.png"; // Add your own icon here
+import mapMarker from "../../../assets/icons/icons8-full-stop-100.png"
 import SideDrawerComp from "../../components/drawer/SideDrawerComp";
+
+// Side Components
 import Settings from "../../components/drawer/pages/Settings";
+import MyTrips from "../../components/drawer/pages/MyTrips"
+import Support from "../../components/drawer/pages/Support"
+import About from "../../components/drawer/pages/About"
 
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
@@ -45,55 +51,30 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <MapView
-        ref={mapRef}
-        style={{ flex: 1 }}
-        showsCompass={true}
-        followsUserLocation={true}
-        region={
-          location
-            ? {
-                latitude: location.latitude,
-                longitude: location.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }
-            : {
-                latitude: -25.98953,
-                longitude: 28.12843,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }
-        }
-      >
+    <View className={"flex-1"} >
+
+      <MapView ref={mapRef} className={"flex-1"} showsCompass={true} followsUserLocation={true}
+        region={ location ? { latitude: location.latitude, longitude: location.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421, }
+        : {latitude: -25.98953, longitude: 28.12843, latitudeDelta: 0.0922, longitudeDelta: 0.0421}}>
         {location && (
-          <Marker
-            coordinate={{
-              latitude: location.latitude,
-              longitude: location.longitude,
-            }}
-          />
-        )}
+          <Marker image={mapMarker} coordinate={{latitude: location.latitude,longitude: location.longitude,}}/>)}
       </MapView>
 
       {/* Side Drawer Button */}
-      <View style={styles.drawerButtonContainer}>
+      <View className={"absolute top-[40px] left-[20px]"}>
         <TouchableOpacity
           onPress={() => navigation.toggleDrawer()}
-          style={styles.drawerButton}
-        >
+          style={styles.drawerButton}>
           <Image source={menuImg} style={styles.drawerButtonIcon} />
         </TouchableOpacity>
       </View>
 
       {/* Custom Location Button */}
-      <View style={styles.locationButtonContainer}>
+      <View className={"absolute bottom-[120px] right-[20px]"}>
         <TouchableOpacity
           onPress={centerMapOnUser}
-          style={styles.locationButton}
-        >
-          <Image source={locateIcon} style={styles.locationButtonIcon} />
+          style={styles.locationButton}>
+          <Image source={locateIcon} className={"w-[30px] h-[30px]"} />
         </TouchableOpacity>
       </View>
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
@@ -112,6 +93,9 @@ const AppDrawer = () => {
     <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideDrawerComp {...props} />}>
       <Drawer.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Drawer.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+      <Drawer.Screen name="MyTrips" component={MyTrips} options={{ headerShown: false }} />
+      <Drawer.Screen name="Support" component={Support} options={{ headerShown: false }} />
+      <Drawer.Screen name="About" component={About} options={{ headerShown: false }} />
     </Drawer.Navigator>
   );
 };
@@ -119,11 +103,6 @@ const AppDrawer = () => {
 export default AppDrawer;
 
 const styles = StyleSheet.create({
-  drawerButtonContainer: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-  },
   drawerButton: {
     width: 50,
     height: 50,
@@ -141,11 +120,6 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
   },
-  locationButtonContainer: {
-    position: 'absolute',
-    bottom: 120,
-    right: 20,
-  },
   locationButton: {
     width: 50,
     height: 50,
@@ -158,9 +132,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
-  },
-  locationButtonIcon: {
-    width: 30,
-    height: 30,
-  },
+  }
 });
