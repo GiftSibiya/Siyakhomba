@@ -21,7 +21,7 @@
     {
       "rank_id": 3,
       "name": "Pretoria Taxi Rank",
-      "activeTime": "24 Hours",
+      "activeTime": "7:00 AM - 9:00 PM",
       "coordinates": {
         "_lat": -25.744881, 
         "_long": 28.192783

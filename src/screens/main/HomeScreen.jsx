@@ -13,6 +13,7 @@ import rankData from "../../../assets/json/RankData.json"
 import menuImg from "../../../assets/icons/icons8-hamburger-menu-50.png";
 import locateIcon from "../../../assets/icons/icons8-location-100.png"; // Add your own icon here
 import mapMarker from "../../../assets/icons/icons8-full-stop-100.png"
+import rankIcon from "../../../assets/icons/map/rankIcon.png"
 
 // SIde Drawer
 import SideDrawerComp from "../../components/drawer/SideDrawerComp";
@@ -27,8 +28,11 @@ const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
   const mapRef = useRef(null);
   const snapPoints = useMemo(() => ["13%", "25%", "50%", "80%"], []);
+
+  // use State
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [selectedRank, setSelectedRank] = useState(null)
 
   useEffect(() => {
     (async () => {
@@ -80,11 +84,10 @@ const HomeScreen = ({ navigation }) => {
                 longitude: RankData.coordinates._long,
               }}
               title={RankData.name} description={`Active Time: ${RankData.activeTime}`}
-              onPress={() => {
-                setSelectedRank(RankData);
+              onPress={() => {setSelectedRank(RankData);
                 console.log("Selected Rank:", RankData);
               }}>
-              {/* <Image source={taxiRankIcon} style={styles.rankIcon} /> */}
+              <Image source={rankIcon} style={{height:30, width: 30}} />
             </Marker>
           ))}
 
