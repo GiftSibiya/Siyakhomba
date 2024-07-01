@@ -6,8 +6,24 @@
       "coordinates": {
         "_lat": -26.007124,
         "_long": 28.182973
-      }
-
+      },
+      "Destinations":[
+        {
+          "name" : "Oakmore Taxi Rank",
+          "price" : 20,
+          "location ": {"_lat": -26.006376,"_long": 28.249306}
+        },
+        {
+          "name" : "Pretoria Taxi Rank",
+          "price" : 25,
+          "location ":{"_lat": -25.744881, "long": 28.192783}
+        },
+        {
+          "name" : "Midrand Half Way House Taxi Rank",
+          "price" : 20,
+          "location ":{"_lat": -25.744881, "long": 28.192783}
+        }
+      ]
     },
     {
       "rank_id": 2,
@@ -16,7 +32,19 @@
       "coordinates": {
         "_lat": -26.006376,
         "_long": 28.249306
-      }
+      },
+      "Destinations":[
+        {
+          "name" : "Pretoria Taxi Rank",
+          "price" : 25,
+          "location ":{"_lat": -25.744881, "long": 28.192783}
+        },
+        {
+          "name" : "Oakmore Taxi Rank",
+          "price" : 20,
+          "location ": {"_lat": -26.006376,"_long": 28.249306}
+        }
+      ]
     },
     {
       "rank_id": 3,
@@ -25,7 +53,19 @@
       "coordinates": {
         "_lat": -25.744881, 
         "_long": 28.192783
-      }
+      },
+      "Destinations":[
+        {
+          "name" : "Pretoria Taxi Rank",
+          "price" : 25,
+          "location ":{"_lat": -25.744881, "long": 28.192783}
+        },
+        {
+          "name" : "Oakmore Taxi Rank",
+          "price" : 20,
+          "location ": {"_lat": -26.006376,"_long": 28.249306}
+        }
+      ]
     },
     {
       "rank_id": 4,
@@ -34,7 +74,24 @@
       "coordinates": {
         "_lat": -26.048980, 
         "_long": 28.059108
-      }
+      },
+      "Destinations":[
+        {
+          "name" : "Pretoria Taxi Rank",
+          "price" : 25,
+          "location ":{"_lat": -25.744881, "long": 28.192783}
+        },
+        {
+          "name" : "Oakmore Taxi Rank",
+          "price" : 20,
+          "location ": {"_lat": -26.006376, "_long": 28.249306}
+        },
+        {
+          "name" : "MTN Noord Taxi Rank",
+          "price" : 28,
+          "location ": {"_lat": -26.198952, "_long": 28.048032}
+        }
+      ]
     },
     {
       "rank_id": 5,
@@ -43,7 +100,19 @@
       "coordinates": {
         "_lat": -26.198952,
         "_long": 28.048032
-      }
+      },
+      "Destinations":[
+        {
+          "name" : "Pretoria Taxi Rank",
+          "price" : 35,
+          "location ":{"_lat": -25.744881, "long": 28.192783}
+        },
+        {
+          "name" : "Oakmore Taxi Rank",
+          "price" : 20,
+          "location ": {"_lat": -26.006376,"_long": 28.249306}
+        }
+      ]
     }
   ]
   
