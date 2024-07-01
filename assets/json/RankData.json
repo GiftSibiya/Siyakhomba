@@ -22,6 +22,21 @@
           "name" : "Midrand Half Way House Taxi Rank",
           "price" : 20,
           "location ":{"_lat": -25.744881, "long": 28.192783}
+        },
+        {
+          "name" : "Midrand Half Way House Taxi Rank",
+          "price" : 20,
+          "location ":{"_lat": -25.744881, "long": 28.192783}
+        },
+        {
+          "name" : "Midrand Half Way House Taxi Rank",
+          "price" : 20,
+          "location ":{"_lat": -25.744881, "long": 28.192783}
+        },
+        {
+          "name" : "Midrand Half Way House Taxi Rank",
+          "price" : 20,
+          "location ":{"_lat": -25.744881, "long": 28.192783}
         }
       ]
     },

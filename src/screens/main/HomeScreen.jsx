@@ -23,6 +23,7 @@ import Settings from "../../components/drawer/pages/Settings";
 import MyTrips from "../../components/drawer/pages/MyTrips"
 import Support from "../../components/drawer/pages/Support"
 import About from "../../components/drawer/pages/About"
+import Destinations from "../../components/utils/Destinations";
 
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
@@ -84,6 +85,10 @@ const HomeScreen = ({ navigation }) => {
     setSelectedRank(null);
   }
 
+  const handleNavigate = () =>{
+    
+  }
+
   return (
     <View className="flex-1">
       <MapView 
@@ -137,19 +142,24 @@ const HomeScreen = ({ navigation }) => {
 
       {/* Selected Rank Overlay here */}
       {overlay && (
-        <View className="absolute items-center justify-center bg-white w-[100%] h-[40%] top-[100px] right-0">
-          <View>
-            <Text>Selected Rank Information</Text>
-            <ScrollView className="border-2 border-black w-[90%] h-[180px] mt-[10px] rounded-md overflow-auto">
+        <View className="absolute flex items-center bg-white w-[100%] h-[40%] top-[100px]">
+          <View className="w-[90%] h-[50%] mt-[20px]">
+            <ScrollView className="bg-slate-100 py-2 ">
               {selectedRank?.Destinations && selectedRank.Destinations.length > 0 ? (
                 selectedRank.Destinations.map((destination, index) => (
-                  <Text key={index}>{destination.name} - {destination.price}</Text>
+                  <Destinations key={index}  name={destination.name} price={destination.price}/>
                 ))
               ) : (
                 <Text className="text-center text-gray-500">Select a rank on the map</Text>
               )}
-            </ScrollView>
+            </ScrollView >
           </View>
+            <TouchableOpacity className="bg-red-500 m-2 w-[100px]" onPress={handleMapClick}>
+              <Text className="text-white p-2">Close</Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="bg-green-500 m-2 w-[100px]" onPress={handleNavigate}>
+              <Text className="text-white p-2">Navigate </Text>
+            </TouchableOpacity>
         </View>
       )}
 
