@@ -1,7 +1,6 @@
-// HomeScreen.js
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View, Image, TouchableOpacity, Text, ScrollView } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Polyline } from "react-native-maps";
 import * as Location from 'expo-location';
 import BtmDrawer from "../../components/homescreen/BtmDrawer";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
@@ -30,16 +29,15 @@ const HomeScreen = ({ navigation }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [selectedRank, setSelectedRank] = useState(null);
   const [overlay, setOverlay] = useState(false);
-  // route stuff
   const [userLocation, setUserLocation] = useState(null);
   const [routeCoordinates, setRouteCoordinates] = useState([]);
-
 
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
+        console.log("Direction Stuff was granted")
         return;
       }
 
@@ -67,7 +65,7 @@ const HomeScreen = ({ navigation }) => {
 
     const offset = -0.020; // Adjust this value as needed
     mapRef.current.animateToRegion({
-      latitude: latitude - offset, // Offset latitude to center below
+      latitude: latitude - offset,
       longitude: longitude,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
@@ -77,40 +75,92 @@ const HomeScreen = ({ navigation }) => {
   const handleMarkerPress = (RankData) => {
     setSelectedRank(RankData);
     centerMapOnMarker(RankData.coordinates._lat, RankData.coordinates._long);
-    setOverlay(true); // Show the overlay when a marker is pressed
+    setOverlay(true);
   };
 
   const handleMapClick = () => {
-    setOverlay(false); // Correctly reset the state
+    setOverlay(false);
     setSelectedRank(null);
+    setRouteCoordinates([]);
   };
 
-  const handleRouting = () => {
-    console.log("Navigate was pressed")
-    // Navigation logic here
+  const handleRouting = async () => {
+    if (!userLocation || !selectedRank) return;
+
+    const startCoords = `${userLocation.latitude},${userLocation.longitude}`;
+    const endCoords = `${selectedRank.coordinates._lat},${selectedRank.coordinates._long}`;
+
+    try {
+      const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${startCoords}&destination=${endCoords}&key=${process.env.MAPS_API}`);
+      const data = await response.json();
+
+      if (data.routes.length > 0 && data.routes[0].overview_polyline.points) {
+        const points = data.routes[0].overview_polyline.points;
+        const decodedPoints = decodePolyline(points);
+        setRouteCoordinates(decodedPoints);
+      } else {
+        console.error("No route found");
+        setRouteCoordinates([]);
+      }
+    } catch (error) {
+      console.error("Error fetching directions:", error);
+      setRouteCoordinates([]);
+    }
+  };
+
+  // Function to decode Google Maps Polyline encoding
+  const decodePolyline = (encoded) => {
+    let points = [];
+    let index = 0;
+    let lat = 0;
+    let lng = 0;
+
+    while (index < encoded.length) {
+      let b;
+      let shift = 0;
+      let result = 0;
+      do {
+        b = encoded.charCodeAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      let dlat = ((result & 1) !== 0 ? ~(result >> 1) : (result >> 1));
+      lat += dlat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.charCodeAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      let dlng = ((result & 1) !== 0 ? ~(result >> 1) : (result >> 1));
+      lng += dlng;
+
+      points.push({ latitude: lat / 1e5, longitude: lng / 1e5 });
+    }
+    return points;
   };
 
   return (
-    <View className="flex-1">
+    <View style={{ flex: 1 }}>
       <MapView
         ref={mapRef}
-        className="flex-1"
+        style={{ flex: 1 }}
         showsCompass={true}
         followsUserLocation={true}
         onPress={handleMapClick}
-        region={location ?
-          {
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
-          }
-          : {
-            latitude: -25.98953,
-            longitude: 28.12843,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
-          }}
+        initialRegion={location ? {
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        } : {
+          latitude: -25.98953,
+          longitude: 28.12843,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }}
       >
         {location && (
           <Marker image={mapMarker} coordinate={{ latitude: location.latitude, longitude: location.longitude }} />
@@ -129,19 +179,27 @@ const HomeScreen = ({ navigation }) => {
             <Image source={rankIcon} style={{ height: 30, width: 30 }} />
           </Marker>
         ))}
+
+        {routeCoordinates.length > 0 && (
+          <Polyline
+            coordinates={routeCoordinates}
+            strokeWidth={2}
+            strokeColor="blue"
+          />
+        )}
       </MapView>
 
-      <View className="absolute top-[40px] left-[20px]">
+      <View style={{ position: 'absolute', top: 40, left: 20 }}>
         <TouchableOpacity
           onPress={() => navigation.toggleDrawer()}
-          className="w-[50px] h-[50px] bg-white rounded-[25px] justify-center items-center">
-          <Image source={menuImg} className="w-[25px] h-[25px]" />
+          style={{ width: 50, height: 50, backgroundColor: 'white', borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}>
+          <Image source={menuImg} style={{ width: 25, height: 25 }} />
         </TouchableOpacity>
       </View>
 
-      <View className="absolute bottom-[120px] right-[20px]">
-        <TouchableOpacity onPress={centerMapOnUser} className="w-[50px] h-[50px] bg-white rounded-[25px] items-center justify-center">
-          <Image source={locateIcon} className="w-[30px] h-[30px]" />
+      <View style={{ position: 'absolute', bottom: 120, right: 20 }}>
+        <TouchableOpacity onPress={centerMapOnUser} style={{ width: 50, height: 50, backgroundColor: 'white', borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}>
+          <Image source={locateIcon} style={{ width: 30, height: 30 }} />
         </TouchableOpacity>
       </View>
 
@@ -153,7 +211,7 @@ const HomeScreen = ({ navigation }) => {
       />
 
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        <BottomSheetView className="flex-1 items-center">
+        <BottomSheetView style={{ flex: 1, alignItems: 'center' }}>
           <BtmDrawer selected={selectedRank} />
         </BottomSheetView>
       </BottomSheet>

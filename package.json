@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.6.1",
+    "@mapbox/polyline": "^1.2.1",
     "@react-native-masked-view/masked-view": "0.3.1",
     "@react-navigation/drawer": "^6.6.15",
     "@react-navigation/stack": "^6.3.29",
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "expo": "~51.0.14",
     "expo-location": "~17.0.1",
     "expo-status-bar": "~1.12.1",
