@@ -1,29 +1,25 @@
+// HomeScreen.js
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View, Image, TouchableOpacity, Text, ScrollView } from "react-native";
-import MapView, { Marker } from "react-native-maps"; 
-import * as Location from 'expo-location'; 
+import MapView, { Marker } from "react-native-maps";
+import * as Location from 'expo-location';
 import BtmDrawer from "../../components/homescreen/BtmDrawer";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-// JSON
-import rankData from "../../../assets/json/RankData.json"
+import rankData from "../../../assets/json/RankData.json";
 
-// Icons 
 import menuImg from "../../../assets/icons/icons8-hamburger-menu-50.png";
-import locateIcon from "../../../assets/icons/icons8-location-100.png"; 
-import mapMarker from "../../../assets/icons/icons8-full-stop-100.png"
-import rankIcon from "../../../assets/icons/map/rankIcon.png"
+import locateIcon from "../../../assets/icons/icons8-location-100.png";
+import mapMarker from "../../../assets/icons/icons8-full-stop-100.png";
+import rankIcon from "../../../assets/icons/map/rankIcon.png";
 
-// Side Drawer
 import SideDrawerComp from "../../components/drawer/SideDrawerComp";
-
-// Side Components
 import Settings from "../../components/drawer/pages/Settings";
-import MyTrips from "../../components/drawer/pages/MyTrips"
-import Support from "../../components/drawer/pages/Support"
-import About from "../../components/drawer/pages/About"
-import Destinations from "../../components/utils/Destinations";
+import MyTrips from "../../components/drawer/pages/MyTrips";
+import Support from "../../components/drawer/pages/Support";
+import About from "../../components/drawer/pages/About";
+import RankOverlay from "../../components/utils/RankOverlay"; // Import the new component
 
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
@@ -33,7 +29,11 @@ const HomeScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [selectedRank, setSelectedRank] = useState(null);
-  const [overlay, setOverlay] = useState(false); // Add this state
+  const [overlay, setOverlay] = useState(false);
+  // route stuff
+  const [userLocation, setUserLocation] = useState(null);
+  const [routeCoordinates, setRouteCoordinates] = useState([]);
+
 
   useEffect(() => {
     (async () => {
@@ -46,7 +46,7 @@ const HomeScreen = ({ navigation }) => {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location.coords);
     })();
-  }, []); 
+  }, []);
 
   const centerMapOnUser = async () => {
     if (!mapRef.current) return;
@@ -83,32 +83,37 @@ const HomeScreen = ({ navigation }) => {
   const handleMapClick = () => {
     setOverlay(false); // Correctly reset the state
     setSelectedRank(null);
-  }
+  };
 
-  const handleNavigate = () =>{
-    
-  }
+  const handleRouting = () => {
+    console.log("Navigate was pressed")
+    // Navigation logic here
+  };
 
   return (
     <View className="flex-1">
-      <MapView 
-        ref={mapRef} 
-        className="flex-1" 
-        showsCompass={true} 
+      <MapView
+        ref={mapRef}
+        className="flex-1"
+        showsCompass={true}
         followsUserLocation={true}
-        onPress={handleMapClick} // Use the corrected function here
-        region={location ? 
-          { latitude: location.latitude, 
-            longitude: location.longitude, 
-            latitudeDelta: 0.0922, 
-            longitudeDelta: 0.0421}
-          : {latitude: -25.98953, 
-          longitude: 28.12843, 
-          latitudeDelta: 0.0922, 
-          longitudeDelta: 0.0421}}
-        >
+        onPress={handleMapClick}
+        region={location ?
+          {
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421
+          }
+          : {
+            latitude: -25.98953,
+            longitude: 28.12843,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421
+          }}
+      >
         {location && (
-          <Marker image={mapMarker} coordinate={{latitude: location.latitude, longitude: location.longitude}}/>
+          <Marker image={mapMarker} coordinate={{ latitude: location.latitude, longitude: location.longitude }} />
         )}
 
         {rankData.map((RankData) => (
@@ -118,7 +123,7 @@ const HomeScreen = ({ navigation }) => {
               latitude: RankData.coordinates._lat,
               longitude: RankData.coordinates._long,
             }}
-            title={RankData.name} 
+            title={RankData.name}
             description={`Active Time: ${RankData.activeTime}`}
             onPress={() => handleMarkerPress(RankData)}>
             <Image source={rankIcon} style={{ height: 30, width: 30 }} />
@@ -140,32 +145,16 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Selected Rank Overlay here */}
-      {overlay && (
-        <View className="absolute flex items-center bg-white w-[100%] h-[40%] top-[100px]">
-          <View className="w-[90%] h-[50%] mt-[20px]">
-            <ScrollView className="bg-slate-100 py-2 ">
-              {selectedRank?.Destinations && selectedRank.Destinations.length > 0 ? (
-                selectedRank.Destinations.map((destination, index) => (
-                  <Destinations key={index}  name={destination.name} price={destination.price}/>
-                ))
-              ) : (
-                <Text className="text-center text-gray-500">Select a rank on the map</Text>
-              )}
-            </ScrollView >
-          </View>
-            <TouchableOpacity className="bg-red-500 m-2 w-[100px]" onPress={handleMapClick}>
-              <Text className="text-white p-2">Close</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-green-500 m-2 w-[100px]" onPress={handleNavigate}>
-              <Text className="text-white p-2">Navigate </Text>
-            </TouchableOpacity>
-        </View>
-      )}
+      <RankOverlay
+        overlay={overlay}
+        selectedRank={selectedRank}
+        onClose={handleMapClick}
+        onNavigate={handleRouting}
+      />
 
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         <BottomSheetView className="flex-1 items-center">
-          <BtmDrawer selected={selectedRank}/>
+          <BtmDrawer selected={selectedRank} />
         </BottomSheetView>
       </BottomSheet>
     </View>
