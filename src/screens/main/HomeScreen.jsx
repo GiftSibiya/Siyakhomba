@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View, Image, TouchableOpacity, Text, ScrollView } from "react-native";
-import MapView, { Marker, Polyline } from "react-native-maps";
+import { View, Image, TouchableOpacity } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import * as Location from 'expo-location';
 import BtmDrawer from "../../components/homescreen/BtmDrawer";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
@@ -8,14 +8,16 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY } from '@env';
 
-
+// Temporary JSON Storage
 import rankData from "../../../assets/json/RankData.json";
 
+// Icons
 import menuImg from "../../../assets/icons/icons8-hamburger-menu-50.png";
 import locateIcon from "../../../assets/icons/icons8-location-100.png";
 import mapMarker from "../../../assets/icons/icons8-full-stop-100.png";
 import rankIcon from "../../../assets/icons/map/rankIcon.png";
 
+// Components
 import SideDrawerComp from "../../components/drawer/SideDrawerComp";
 import Settings from "../../components/drawer/pages/Settings";
 import MyTrips from "../../components/drawer/pages/MyTrips";
@@ -32,12 +34,9 @@ const HomeScreen = ({ navigation }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [selectedRank, setSelectedRank] = useState(null);
   const [overlay, setOverlay] = useState(false);
-  const [userLocation, setUserLocation] = useState(null);
-  const [routeCoordinates, setRouteCoordinates] = useState([]);
+  const [route, setRoute] = useState(false);
 
-  const origin = {latitude: -26.007124, longitude: 28.182973};
-  const destination =  {latitude: -27.007124, longitude: 28.282973};
-
+  // Get User Location
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -46,7 +45,6 @@ const HomeScreen = ({ navigation }) => {
         console.log("Direction Stuff was granted")
         return;
       }
-
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location.coords);
     })();
@@ -84,20 +82,17 @@ const HomeScreen = ({ navigation }) => {
     setOverlay(true);
   };
 
+  // Clears The Map When Map Is Clicked
   const handleMapClick = () => {
     setOverlay(false);
     setSelectedRank(null);
-    setRouteCoordinates([]);
+    setRoute(false);
   };
 
   const handleRouting = async () => {
-    if (!userLocation || !selectedRank) return;
-
-    const startCoords = `${userLocation.latitude},${userLocation.longitude}`;
-    const endCoords = `${selectedRank.coordinates._lat},${selectedRank.coordinates._long}`;
+    if (!location || !selectedRank) return;
+    setRoute(true);
   };
-
-  // Function to decode Google Maps Polyline encoding
 
   return (
     <View style={{ flex: 1 }}>
@@ -115,10 +110,20 @@ const HomeScreen = ({ navigation }) => {
           latitudeDelta: 0.0922, longitudeDelta: 0.0421
         }}>
 
-          {/* Map Routing */}
-         <MapViewDirections origin={origin} destination={destination} apikey={GOOGLE_MAPS_APIKEY} strokeWidth={3} strokeColor="black" />  
+        {/* Map Routing */}
+        {route && (
+          <MapViewDirections
+            origin={{ latitude: location.latitude, longitude: location.longitude }}
+            destination={{ latitude: selectedRank.coordinates._lat, longitude: selectedRank.coordinates._long }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={3}
+            strokeColor="black"
+          />
+        )}
 
-        {location && ( <Marker image={mapMarker} coordinate={{ latitude: location.latitude, longitude: location.longitude }} />)}
+        {location && (
+          <Marker image={mapMarker} coordinate={{ latitude: location.latitude, longitude: location.longitude }} />
+        )}
 
         {rankData.map((RankData) => (
           <Marker key={RankData.rank_id}
@@ -127,8 +132,8 @@ const HomeScreen = ({ navigation }) => {
             description={`Active Time: ${RankData.activeTime}`}
             onPress={() => handleMarkerPress(RankData)}>
             <Image source={rankIcon} style={{ height: 30, width: 30 }} />
-
-          </Marker>))}
+          </Marker>
+        ))}
       </MapView>
 
       {/* Side Menu Component */}
