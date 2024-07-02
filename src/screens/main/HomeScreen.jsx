@@ -80,6 +80,7 @@ const HomeScreen = ({ navigation }) => {
 
   const handleMarkerPress = (RankData) => {
     setSelectedRank(RankData);
+    // console.log(selectedRank.name)
     centerMapOnMarker(RankData.coordinates._lat, RankData.coordinates._long);
     setOverlay(true);
   };
@@ -165,7 +166,7 @@ const HomeScreen = ({ navigation }) => {
       }
 
       { directing && 
-        <DirectionOverlay/>
+        <DirectionOverlay selectedRank={selectedRank} onClose={handleMapClick} /> 
       }
 
       {/* Bottom Sheet Navigator */}
