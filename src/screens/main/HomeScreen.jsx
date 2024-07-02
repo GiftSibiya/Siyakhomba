@@ -5,6 +5,9 @@ import * as Location from 'expo-location';
 import BtmDrawer from "../../components/homescreen/BtmDrawer";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import MapViewDirections from "react-native-maps-directions";
+import { GOOGLE_MAPS_APIKEY } from '@env';
+
 
 import rankData from "../../../assets/json/RankData.json";
 
@@ -18,7 +21,7 @@ import Settings from "../../components/drawer/pages/Settings";
 import MyTrips from "../../components/drawer/pages/MyTrips";
 import Support from "../../components/drawer/pages/Support";
 import About from "../../components/drawer/pages/About";
-import RankOverlay from "../../components/utils/RankOverlay"; // Import the new component
+import RankOverlay from "../../components/utils/RankOverlay"; 
 
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
@@ -31,6 +34,9 @@ const HomeScreen = ({ navigation }) => {
   const [overlay, setOverlay] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [routeCoordinates, setRouteCoordinates] = useState([]);
+
+  const origin = {latitude: -26.007124, longitude: 28.182973};
+  const destination =  {latitude: -27.007124, longitude: 28.282973};
 
   useEffect(() => {
     (async () => {
@@ -89,58 +95,9 @@ const HomeScreen = ({ navigation }) => {
 
     const startCoords = `${userLocation.latitude},${userLocation.longitude}`;
     const endCoords = `${selectedRank.coordinates._lat},${selectedRank.coordinates._long}`;
-
-    try {
-      const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${startCoords}&destination=${endCoords}&key=${process.env.MAPS_API}`);
-      const data = await response.json();
-
-      if (data.routes.length > 0 && data.routes[0].overview_polyline.points) {
-        const points = data.routes[0].overview_polyline.points;
-        const decodedPoints = decodePolyline(points);
-        setRouteCoordinates(decodedPoints);
-      } else {
-        console.error("No route found");
-        setRouteCoordinates([]);
-      }
-    } catch (error) {
-      console.error("Error fetching directions:", error);
-      setRouteCoordinates([]);
-    }
   };
 
   // Function to decode Google Maps Polyline encoding
-  const decodePolyline = (encoded) => {
-    let points = [];
-    let index = 0;
-    let lat = 0;
-    let lng = 0;
-
-    while (index < encoded.length) {
-      let b;
-      let shift = 0;
-      let result = 0;
-      do {
-        b = encoded.charCodeAt(index++) - 63;
-        result |= (b & 0x1f) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      let dlat = ((result & 1) !== 0 ? ~(result >> 1) : (result >> 1));
-      lat += dlat;
-
-      shift = 0;
-      result = 0;
-      do {
-        b = encoded.charCodeAt(index++) - 63;
-        result |= (b & 0x1f) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      let dlng = ((result & 1) !== 0 ? ~(result >> 1) : (result >> 1));
-      lng += dlng;
-
-      points.push({ latitude: lat / 1e5, longitude: lng / 1e5 });
-    }
-    return points;
-  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -151,44 +108,30 @@ const HomeScreen = ({ navigation }) => {
         followsUserLocation={true}
         onPress={handleMapClick}
         initialRegion={location ? {
-          latitude: location.latitude,
-          longitude: location.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
+          latitude: location.latitude, longitude: location.longitude,
+          latitudeDelta: 0.0922, longitudeDelta: 0.0421
         } : {
-          latitude: -25.98953,
-          longitude: 28.12843,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
-        }}
-      >
-        {location && (
-          <Marker image={mapMarker} coordinate={{ latitude: location.latitude, longitude: location.longitude }} />
-        )}
+          latitude: -25.98953, longitude: 28.12843,
+          latitudeDelta: 0.0922, longitudeDelta: 0.0421
+        }}>
+
+          {/* Map Routing */}
+         <MapViewDirections origin={origin} destination={destination} apikey={GOOGLE_MAPS_APIKEY} strokeWidth={3} strokeColor="black" />  
+
+        {location && ( <Marker image={mapMarker} coordinate={{ latitude: location.latitude, longitude: location.longitude }} />)}
 
         {rankData.map((RankData) => (
-          <Marker
-            key={RankData.rank_id}
-            coordinate={{
-              latitude: RankData.coordinates._lat,
-              longitude: RankData.coordinates._long,
-            }}
+          <Marker key={RankData.rank_id}
+            coordinate={{ latitude: RankData.coordinates._lat, longitude: RankData.coordinates._long }}
             title={RankData.name}
             description={`Active Time: ${RankData.activeTime}`}
             onPress={() => handleMarkerPress(RankData)}>
             <Image source={rankIcon} style={{ height: 30, width: 30 }} />
-          </Marker>
-        ))}
 
-        {routeCoordinates.length > 0 && (
-          <Polyline
-            coordinates={routeCoordinates}
-            strokeWidth={2}
-            strokeColor="blue"
-          />
-        )}
+          </Marker>))}
       </MapView>
 
+      {/* Side Menu Component */}
       <View style={{ position: 'absolute', top: 40, left: 20 }}>
         <TouchableOpacity
           onPress={() => navigation.toggleDrawer()}
@@ -197,19 +140,19 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
+      {/* User Location Icon */}
       <View style={{ position: 'absolute', bottom: 120, right: 20 }}>
         <TouchableOpacity onPress={centerMapOnUser} style={{ width: 50, height: 50, backgroundColor: 'white', borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}>
           <Image source={locateIcon} style={{ width: 30, height: 30 }} />
         </TouchableOpacity>
       </View>
 
+      {/* Rank Details Overlay */}
       <RankOverlay
-        overlay={overlay}
-        selectedRank={selectedRank}
-        onClose={handleMapClick}
-        onNavigate={handleRouting}
+        overlay={overlay} selectedRank={selectedRank}
+        onClose={handleMapClick} onNavigate={handleRouting}
       />
-
+      {/* Bottom Sheet Navigator */}
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         <BottomSheetView style={{ flex: 1, alignItems: 'center' }}>
           <BtmDrawer selected={selectedRank} />
