@@ -24,6 +24,7 @@ import MyTrips from "../../components/drawer/pages/MyTrips";
 import Support from "../../components/drawer/pages/Support";
 import About from "../../components/drawer/pages/About";
 import RankOverlay from "../../components/utils/RankOverlay"; 
+import DirectionOverlay from "../../components/utils/DirectionOverlay";
 
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
@@ -35,6 +36,7 @@ const HomeScreen = ({ navigation }) => {
   const [selectedRank, setSelectedRank] = useState(null);
   const [overlay, setOverlay] = useState(false);
   const [route, setRoute] = useState(false);
+  const [directing, setDirecting] = useState(false);
 
   // Get User Location
   useEffect(() => {
@@ -87,11 +89,13 @@ const HomeScreen = ({ navigation }) => {
     setOverlay(false);
     setSelectedRank(null);
     setRoute(false);
+    setDirecting(false)
   };
 
   const handleRouting = async () => {
     if (!location || !selectedRank) return;
     setRoute(true);
+    setDirecting(true)
   };
 
   return (
@@ -117,7 +121,7 @@ const HomeScreen = ({ navigation }) => {
             destination={{ latitude: selectedRank.coordinates._lat, longitude: selectedRank.coordinates._long }}
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={3}
-            strokeColor="black"
+            strokeColor="blue"
           />
         )}
 
@@ -153,10 +157,17 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       {/* Rank Details Overlay */}
-      <RankOverlay
-        overlay={overlay} selectedRank={selectedRank}
-        onClose={handleMapClick} onNavigate={handleRouting}
-      />
+      {overlay && !directing &&
+        <RankOverlay
+          selectedRank={selectedRank}
+          onClose={handleMapClick} onNavigate={handleRouting}
+        />
+      }
+
+      { directing && 
+        <DirectionOverlay/>
+      }
+
       {/* Bottom Sheet Navigator */}
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         <BottomSheetView style={{ flex: 1, alignItems: 'center' }}>
