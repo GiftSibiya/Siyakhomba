@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View, Image, TouchableOpacity, TextInput, Text, Keyboard } from "react-native";
+import { View, Image, TouchableOpacity, TextInput, Text, Keyboard, ScrollView } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from 'expo-location';
 import BtmDrawer from "../../components/homescreen/BtmDrawer";
@@ -26,6 +26,7 @@ import Support from "../../components/drawer/pages/Support";
 import About from "../../components/drawer/pages/About";
 import RankOverlay from "../../components/utils/RankOverlay"; 
 import DirectionOverlay from "../../components/utils/DirectionOverlay";
+import SearchedDestinations from "../../components/utils/SearchedDestinations";
 
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
@@ -189,10 +190,14 @@ const HomeScreen = ({ navigation }) => {
       </View>
         {/* Search  Components*/}
       {searchOverlay && 
-      <View className='absolute flex items-center h-[50%] top-[90px] w-[100%]'>
-        <View className='bg-white w-[90%] h-[230px] rounded-xl'>
-          <Text>This is showing Up </Text>
-        </View>
+      <View className='absolute h-[200px] top-[90px] w-[100%]'>
+          <ScrollView className='bg-white w-[90%] mx-auto rounded-xl'>
+            <SearchedDestinations/>
+            <SearchedDestinations/>
+            <SearchedDestinations/>
+            <SearchedDestinations/>
+            <SearchedDestinations/>
+          </ScrollView>
       </View>}
       </View>
 
