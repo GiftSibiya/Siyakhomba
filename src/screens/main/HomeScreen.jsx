@@ -26,6 +26,7 @@ import Support from "../../components/drawer/pages/Support";
 import About from "../../components/drawer/pages/About";
 import RankOverlay from "../../components/utils/RankOverlay"; 
 import DirectionOverlay from "../../components/utils/DirectionOverlay";
+import SearchedDestinations from "../../components/utils/SearchedDestinations";
 
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
@@ -54,7 +55,15 @@ const HomeScreen = ({ navigation }) => {
 
   const handleSearch = (text) => {
     const searchTerm = text.toLowerCase();
-    const results = rankData.filter(rank => rank.name.toLowerCase().includes(searchTerm));
+    const results = rankData.filter(rank => {
+      // Check if rank name matches search term
+      if (rank.name.toLowerCase().includes(searchTerm)) {
+        return true;
+      }
+      // Check if any destination name matches search term
+      const destinations = rank.Destinations || [];
+      return destinations.some(destination => destination.name.toLowerCase().includes(searchTerm));
+    });
     setSearchResults(results); // Update search results state
   };
 

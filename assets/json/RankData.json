@@ -58,6 +58,11 @@
           "name" : "Oakmore Taxi Rank",
           "price" : 20,
           "location ": {"_lat": -26.006376,"_long": 28.249306}
+        },
+        {
+          "name" : "Tester",
+          "price" : 20,
+          "location ": {"_lat": -26.006376,"_long": 28.249306}
         }
       ]
     },
