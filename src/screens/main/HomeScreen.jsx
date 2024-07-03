@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View, Image, TouchableOpacity, TextInput, Text, Keyboard, ScrollView } from "react-native";
+import { View, Image, TouchableOpacity, TextInput, Text, Keyboard, ScrollView, FlatList } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from 'expo-location';
 import BtmDrawer from "../../components/homescreen/BtmDrawer";
@@ -26,7 +26,6 @@ import Support from "../../components/drawer/pages/Support";
 import About from "../../components/drawer/pages/About";
 import RankOverlay from "../../components/utils/RankOverlay"; 
 import DirectionOverlay from "../../components/utils/DirectionOverlay";
-import SearchedDestinations from "../../components/utils/SearchedDestinations";
 
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
@@ -43,13 +42,39 @@ const HomeScreen = ({ navigation }) => {
   const [searchOverlay, setSearchOverlay] = useState(false);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
+  // Search Stuff
+  const [inputValue, setInputValue] = useState(''); // State to hold input value
+  const [searchResults, setSearchResults] = useState([]); // State to hold search results
+  const searchTextInputRef = useRef(null); // Reference for TextInput
+
+  const handleInputChange = (text) => {
+    setInputValue(text); // Update input value state
+    handleSearch(text);  // Trigger search with new input value
+  };
+
+  const handleSearch = (text) => {
+    const searchTerm = text.toLowerCase();
+    const results = rankData.filter(rank => rank.name.toLowerCase().includes(searchTerm));
+    setSearchResults(results); // Update search results state
+  };
+
+  const renderResult = ({ item }) => (
+    <TouchableOpacity onPress={() => handleMarkerPress(item)}>
+      <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#ddd' }}>
+        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
+        <Text>{item.activeTime}</Text>
+        <Text>Latitude: {item.coordinates._lat}, Longitude: {item.coordinates._long}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
   // Get User Location
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
-        console.log("Direction Stuff was granted")
+        console.log("Location access not granted");
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
@@ -101,9 +126,10 @@ const HomeScreen = ({ navigation }) => {
 
   const handleMarkerPress = (RankData) => {
     setSelectedRank(RankData);
-    // console.log(selectedRank.name)
     centerMapOnMarker(RankData.coordinates._lat, RankData.coordinates._long);
     setOverlay(true);
+    setSearchOverlay(false); // Hide search results on marker press
+    textInputRef.current?.blur(); // Hide keyboard on marker press
   };
 
   // Clears The Map When Map Is Clicked
@@ -111,20 +137,19 @@ const HomeScreen = ({ navigation }) => {
     setOverlay(false);
     setSelectedRank(null);
     setRoute(false);
-    setDirecting(false)
-    setSearchOverlay(false)
+    setDirecting(false);
+    setSearchOverlay(false);
   };
 
-  const handleInputTouch = () =>{
-    setSearchOverlay(true)
+  const handleInputTouch = () => {
+    setSearchOverlay(true);
     if (!keyboardVisible) textInputRef.current?.focus();
-    console.log("rank Was TOuched")
-  }
+  };
 
   const handleRouting = async () => {
     if (!location || !selectedRank) return;
     setRoute(true);
-    setDirecting(true)
+    setDirecting(true);
   };
 
   return (
@@ -170,36 +195,37 @@ const HomeScreen = ({ navigation }) => {
       </MapView>
 
       {/* Side Menu Component */}
-      <View className='absolute top-[50px] w-[100%] h-[100px] flex flex-row items-center justify-center '>
-      <View className='flex flex-row items-center w-[95%]'>
-        <TouchableOpacity
-          onPress={() => navigation.toggleDrawer()}
-          className='w-[50px] h-[50px] bg-white 2 border-[2px] border-black rounded-full justify-center items-center'>
-          <Image source={menuImg} className='w-[25px] h-[25px]' />
-        </TouchableOpacity>
-        <View className="flex flex-row items-center w-[80%] rounded-3xl p-2 border-[2px] mx-2 border-black bg-white">
-          <Image source={searchIcon} className="h-[30px] w-[30px]" />
-          <TextInput
+      <View style={{ position: 'absolute', top: 50, width: '100%', height: 100, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', width: '95%' }}>
+          <TouchableOpacity
+            onPress={() => navigation.toggleDrawer()}
+            style={{ width: 50, height: 50, backgroundColor: 'white', borderWidth: 2, borderColor: 'black', borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}>
+            <Image source={menuImg} style={{ width: 25, height: 25 }} />
+          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', alignItems: 'center', width: '80%', borderRadius: 30, padding: 10, borderWidth: 2, marginLeft: 10, borderColor: 'black', backgroundColor: 'white' }}>
+            <Image source={searchIcon} style={{ height: 30, width: 30 }} />
+            <TextInput
               ref={textInputRef} // Assign ref to TextInput
               placeholder="Where To?"
-              style={{ paddingHorizontal: 10, fontSize: 18, fontWeight: 'bold', borderWidth: 0 }} // Remove border style to prevent double border
-              onTouchStart={handleInputTouch} // Handle touch event to gain focus
-              onFocus={() => keyboardVisible && textInputRef.current?.blur()} // Blur if keyboard is visible
+              style={{ flex: 1, paddingLeft: 10, fontSize: 18, fontWeight: 'bold' }} // Add styles to the TextInput
+              onChangeText={handleInputChange} // Capture input change
+              onFocus={handleInputTouch} // Handle touch focus
             />
+          </View>
         </View>
       </View>
-        {/* Search  Components*/}
-      {searchOverlay && 
-      <View className='absolute h-[200px] top-[90px] w-[100%]'>
-          <ScrollView className='bg-white w-[90%] mx-auto rounded-xl'>
-            <SearchedDestinations/>
-            <SearchedDestinations/>
-            <SearchedDestinations/>
-            <SearchedDestinations/>
-            <SearchedDestinations/>
-          </ScrollView>
-      </View>}
-      </View>
+
+      {/* Search Results Overlay */}
+      {searchOverlay && (
+        <View style={{ position: 'absolute', top: 90, width: '100%', maxHeight: 200 }}>
+          <FlatList
+            data={searchResults}
+            renderItem={renderResult}
+            keyExtractor={(item) => item.rank_id.toString()}
+            style={{ backgroundColor: 'white', width: '90%', alignSelf: 'center', borderRadius: 10 }}
+          />
+        </View>
+      )}
 
       {/* User Location Icon */}
       <View style={{ position: 'absolute', bottom: 120, right: 20 }}>
@@ -212,12 +238,13 @@ const HomeScreen = ({ navigation }) => {
       {overlay && !directing &&
         <RankOverlay
           selectedRank={selectedRank}
-          onClose={handleMapClick} onNavigate={handleRouting}
+          onClose={handleMapClick}
+          onNavigate={handleRouting}
         />
       }
 
-      { directing && 
-        <DirectionOverlay selectedRank={selectedRank} onClose={handleMapClick} /> 
+      {directing &&
+        <DirectionOverlay selectedRank={selectedRank} onClose={handleMapClick} />
       }
 
       {/* Bottom Sheet Navigator */}
