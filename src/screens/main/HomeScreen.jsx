@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity, TextInput, Text, Keyboard } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from 'expo-location';
 import BtmDrawer from "../../components/homescreen/BtmDrawer";
@@ -16,6 +16,7 @@ import menuImg from "../../../assets/icons/icons8-hamburger-menu-50.png";
 import locateIcon from "../../../assets/icons/icons8-location-100.png";
 import mapMarker from "../../../assets/icons/icons8-full-stop-100.png";
 import rankIcon from "../../../assets/icons/map/rankIcon.png";
+import searchIcon from "../../../assets/icons/icons8-search-100.png";
 
 // Components
 import SideDrawerComp from "../../components/drawer/SideDrawerComp";
@@ -29,7 +30,8 @@ import DirectionOverlay from "../../components/utils/DirectionOverlay";
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
   const mapRef = useRef(null);
-  const snapPoints = useMemo(() => ["13%", "25%", "50%", "80%"], []);
+  const textInputRef = useRef(null); // Added ref for TextInput
+  const snapPoints = useMemo(() => ["13%", "25%", "50%"], []);
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -37,6 +39,8 @@ const HomeScreen = ({ navigation }) => {
   const [overlay, setOverlay] = useState(false);
   const [route, setRoute] = useState(false);
   const [directing, setDirecting] = useState(false);
+  const [searchOverlay, setSearchOverlay] = useState(false);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
 
   // Get User Location
   useEffect(() => {
@@ -50,6 +54,22 @@ const HomeScreen = ({ navigation }) => {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location.coords);
     })();
+  }, []);
+
+  // Handle Keyboard Events
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardVisible(true);
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false);
+      textInputRef.current?.blur(); // Blur TextInput when keyboard is hidden
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
   }, []);
 
   const centerMapOnUser = async () => {
@@ -91,7 +111,14 @@ const HomeScreen = ({ navigation }) => {
     setSelectedRank(null);
     setRoute(false);
     setDirecting(false)
+    setSearchOverlay(false)
   };
+
+  const handleInputTouch = () =>{
+    setSearchOverlay(true)
+    if (!keyboardVisible) textInputRef.current?.focus();
+    console.log("rank Was TOuched")
+  }
 
   const handleRouting = async () => {
     if (!location || !selectedRank) return;
@@ -142,12 +169,31 @@ const HomeScreen = ({ navigation }) => {
       </MapView>
 
       {/* Side Menu Component */}
-      <View style={{ position: 'absolute', top: 40, left: 20 }}>
+      <View className='absolute top-[50px] w-[100%] h-[100px] flex flex-row items-center justify-center '>
+      <View className='flex flex-row items-center w-[95%]'>
         <TouchableOpacity
           onPress={() => navigation.toggleDrawer()}
-          style={{ width: 50, height: 50, backgroundColor: 'white', borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}>
-          <Image source={menuImg} style={{ width: 25, height: 25 }} />
+          className='w-[50px] h-[50px] bg-white 2 border-[2px] border-black rounded-full justify-center items-center'>
+          <Image source={menuImg} className='w-[25px] h-[25px]' />
         </TouchableOpacity>
+        <View className="flex flex-row items-center w-[80%] rounded-3xl p-2 border-[2px] mx-2 border-black bg-white">
+          <Image source={searchIcon} className="h-[30px] w-[30px]" />
+          <TextInput
+              ref={textInputRef} // Assign ref to TextInput
+              placeholder="Where To?"
+              style={{ paddingHorizontal: 10, fontSize: 18, fontWeight: 'bold', borderWidth: 0 }} // Remove border style to prevent double border
+              onTouchStart={handleInputTouch} // Handle touch event to gain focus
+              onFocus={() => keyboardVisible && textInputRef.current?.blur()} // Blur if keyboard is visible
+            />
+        </View>
+      </View>
+        {/* Search  Components*/}
+      {searchOverlay && 
+      <View className='absolute flex items-center h-[50%] top-[90px] w-[100%]'>
+        <View className='bg-white w-[90%] h-[230px] rounded-xl'>
+          <Text>This is showing Up </Text>
+        </View>
+      </View>}
       </View>
 
       {/* User Location Icon */}

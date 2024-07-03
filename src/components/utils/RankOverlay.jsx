@@ -6,7 +6,7 @@ import Destinations from "../../components/utils/Destinations";
 const RankOverlay = ({selectedRank, onClose, onNavigate }) => {
 
   return (
-    <View className="absolute flex flex-col justify-between items-center  w-[100%] h-[30%] top-[100px]">
+    <View className="absolute flex flex-col justify-between items-center  w-[100%] h-[30%] top-[130px]">
       <View className="flex flex-col justify-between items-center bg-white w-[92%] h-[100%] rounded-md">
         <View className="flex items-center w-[90%] h-[65%] mt-[20px]">
           <Text className="mb-1 font-semibold">Available Destinations</Text>
