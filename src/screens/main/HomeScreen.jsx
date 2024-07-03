@@ -55,28 +55,35 @@ const HomeScreen = ({ navigation }) => {
 
   const handleSearch = (text) => {
     const searchTerm = text.toLowerCase();
+  
+    if (searchTerm === "") {
+      setSearchResults([]);
+      return;
+    }
     const results = rankData.filter(rank => {
-      // Check if rank name matches search term
       if (rank.name.toLowerCase().includes(searchTerm)) {
         return true;
       }
-      // Check if any destination name matches search term
-      const destinations = rank.Destinations || [];
+  
+      const destinations = rank.destinations || [];
       return destinations.some(destination => destination.name.toLowerCase().includes(searchTerm));
     });
+  
     setSearchResults(results); // Update search results state
   };
+  
+  const renderResult = ({ item }) => {
+    const filteredDestinations = item.destinations && item.destinations.filter(destination =>
+      destination.name.toLowerCase().includes(inputValue.toLowerCase())
+    );
 
-  const renderResult = ({ item }) => (
-    <TouchableOpacity onPress={() => handleMarkerPress(item)}>
-      <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#ddd' }}>
-        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
-        <Text>{item.activeTime}</Text>
-        <Text>Latitude: {item.coordinates._lat}, Longitude: {item.coordinates._long}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
+    return(
+      <TouchableOpacity onPress={() => handleMarkerPress(item)}>
+          <SearchedDestinations name={item.name} destination={filteredDestinations[0].name}/>
+      </TouchableOpacity>
+    )
+  };
+  
   // Get User Location
   useEffect(() => {
     (async () => {
@@ -226,7 +233,7 @@ const HomeScreen = ({ navigation }) => {
 
       {/* Search Results Overlay */}
       {searchOverlay && (
-        <View style={{ position: 'absolute', top: 90, width: '100%', maxHeight: 200 }}>
+        <View style={{ position: 'absolute', top: 130, width: '100%', maxHeight: 200 }}>
           <FlatList
             data={searchResults}
             renderItem={renderResult}

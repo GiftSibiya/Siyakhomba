@@ -11,8 +11,8 @@ const RankOverlay = ({selectedRank, onClose, onNavigate }) => {
         <View className="flex items-center w-[90%] h-[65%] mt-[20px]">
           <Text className="mb-1 font-semibold">Available Destinations</Text>
           <ScrollView className="bg-slate-100 py-2 w-[100%]">
-            {selectedRank?.Destinations && selectedRank.Destinations.length > 0 ? (
-              selectedRank.Destinations.map((destination, index) => (
+            {selectedRank?.destinations && selectedRank.destinations.length > 0 ? (
+              selectedRank.destinations.map((destination, index) => (
                 <Destinations key={index} name={destination.name} price={destination.price}/>
               ))
             ) : (
