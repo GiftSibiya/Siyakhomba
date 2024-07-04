@@ -24,7 +24,6 @@ import Settings from "../../components/drawer/pages/Settings";
 import MyTrips from "../../components/drawer/pages/MyTrips";
 import Support from "../../components/drawer/pages/Support";
 import About from "../../components/drawer/pages/About";
-import RankOverlay from "../../components/utils/RankOverlay"; 
 import DirectionOverlay from "../../components/utils/DirectionOverlay";
 import SearchedDestinations from "../../components/utils/SearchedDestinations";
 
@@ -32,7 +31,7 @@ const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
   const mapRef = useRef(null);
   const textInputRef = useRef(null); // Added ref for TextInput
-  const snapPoints = useMemo(() => ["13%", "25%", "50%"], []);
+  const snapPoints = useMemo(() => ["13%", "25%", "55%"], []);
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -262,15 +261,6 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Rank Details Overlay */}
-      {overlay && !directing && selectedRank &&
-        <RankOverlay
-          selectedRank={selectedRank}
-          onClose={handleMapClick}
-          onNavigate={handleRouting}
-        />
-      }
-
       {directing && selectedRank &&
         <DirectionOverlay selectedRank={selectedRank} onClose={handleMapClick} />
       }
@@ -278,7 +268,8 @@ const HomeScreen = ({ navigation }) => {
       {/* Bottom Sheet Navigator */}
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         <BottomSheetView style={{ flex: 1, alignItems: 'center' }}>
-          <BtmDrawer selected={selectedRank} />
+          <BtmDrawer selectedRank={selectedRank}
+          onNavigate={handleRouting} />
         </BottomSheetView>
       </BottomSheet>
     </View>
