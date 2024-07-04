@@ -1,12 +1,26 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, Image } from "react-native";
+import React from "react";
+import { StatusBar } from "expo-status-bar";
+import SettingMenu from "../../utils/settings/SettingMenu";
 
-const About = () => {
+
+
+export default function About() {
   return (
-    <View>
-      <Text>About</Text>
+    <View className=" flex w-[100%] h-full mt-[30px]">
+      <View className='p-[10px]'>
+        <Text className='text-xl font-semibold'>About</Text>
+      </View>
+      <View className='p-2'>
+        <Text className='text-xl font-light text-slate-500'>Version: 0.0.0</Text>
+        <View className='flex flex-col items-centre justify-center p-2 mt-[10px] w-[100%] '>
+          <SettingMenu name={"Rate The App"} description={""}/>
+          <SettingMenu name={"Follow Us On TikTok"} description={""}/>
+          <SettingMenu name={"Legal"} description={""}/>
+          <SettingMenu name={"Acknowledgements"} description={""}/>
+          <SettingMenu name={"Privacy"} description={""}/>
+        </View>
+      </View>
     </View>
-  )
+  );
 }
-
-export default About
