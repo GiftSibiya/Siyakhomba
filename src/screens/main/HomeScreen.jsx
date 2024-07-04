@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View, Image, TouchableOpacity, TextInput, Text, Keyboard, ScrollView, FlatList } from "react-native";
+import { View, Image, TouchableOpacity, TextInput, Text, Keyboard, FlatList } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from 'expo-location';
 import BtmDrawer from "../../components/homescreen/BtmDrawer";
@@ -61,27 +61,27 @@ const HomeScreen = ({ navigation }) => {
       return;
     }
     const results = rankData.filter(rank => {
-      if (rank.name.toLowerCase().includes(searchTerm)) {
+      if (rank.name?.toLowerCase().includes(searchTerm)) {
         return true;
       }
   
       const destinations = rank.destinations || [];
-      return destinations.some(destination => destination.name.toLowerCase().includes(searchTerm));
+      return destinations.some(destination => destination.name?.toLowerCase().includes(searchTerm));
     });
   
     setSearchResults(results); // Update search results state
   };
   
   const renderResult = ({ item }) => {
-    const filteredDestinations = item.destinations && item.destinations.filter(destination =>
-      destination.name.toLowerCase().includes(inputValue.toLowerCase())
+    const filteredDestinations = item.destinations?.filter(destination =>
+      destination.name?.toLowerCase().includes(inputValue.toLowerCase())
     );
 
-    return(
+    return filteredDestinations && filteredDestinations.length > 0 ? (
       <TouchableOpacity onPress={() => handleMarkerPress(item)}>
-          <SearchedDestinations name={item.name} destination={filteredDestinations[0].name}/>
+        <SearchedDestinations name={item.name} destination={filteredDestinations[0].name}/>
       </TouchableOpacity>
-    )
+    ) : null;
   };
   
   // Get User Location
@@ -94,7 +94,11 @@ const HomeScreen = ({ navigation }) => {
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location.coords);
+      if (location) {
+        setLocation(location.coords);
+      } else {
+        console.log("Unable to get location");
+      }
     })();
   }, []);
 
@@ -125,6 +129,8 @@ const HomeScreen = ({ navigation }) => {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }, 1000); // animation time
+    } else {
+      console.log("Unable to center map on user");
     }
   };
 
@@ -141,6 +147,10 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const handleMarkerPress = (RankData) => {
+    if (!RankData?.coordinates?._lat || !RankData?.coordinates?._long) {
+      console.log("Invalid coordinates for marker");
+      return;
+    }
     setSelectedRank(RankData);
     centerMapOnMarker(RankData.coordinates._lat, RankData.coordinates._long);
     setOverlay(true);
@@ -163,7 +173,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const handleRouting = async () => {
-    if (!location || !selectedRank) return;
+    if (!location || !selectedRank?.coordinates) return;
     setRoute(true);
     setDirecting(true);
   };
@@ -185,7 +195,7 @@ const HomeScreen = ({ navigation }) => {
         }}>
 
         {/* Map Routing */}
-        {route && (
+        {route && location && selectedRank?.coordinates && (
           <MapViewDirections
             origin={{ latitude: location.latitude, longitude: location.longitude }}
             destination={{ latitude: selectedRank.coordinates._lat, longitude: selectedRank.coordinates._long }}
@@ -200,13 +210,15 @@ const HomeScreen = ({ navigation }) => {
         )}
 
         {rankData.map((RankData) => (
-          <Marker key={RankData.rank_id}
-            coordinate={{ latitude: RankData.coordinates._lat, longitude: RankData.coordinates._long }}
-            title={RankData.name}
-            description={`Active Time: ${RankData.activeTime}`}
-            onPress={() => handleMarkerPress(RankData)}>
-            <Image source={rankIcon} style={{ height: 30, width: 30 }} />
-          </Marker>
+          RankData.coordinates?._lat && RankData.coordinates?._long ? (
+            <Marker key={RankData.rank_id}
+              coordinate={{ latitude: RankData.coordinates._lat, longitude: RankData.coordinates._long }}
+              title={RankData.name}
+              description={`Active Time: ${RankData.activeTime}`}
+              onPress={() => handleMarkerPress(RankData)}>
+              <Image source={rankIcon} style={{ height: 30, width: 30 }} />
+            </Marker>
+          ) : null
         ))}
       </MapView>
 
@@ -251,7 +263,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       {/* Rank Details Overlay */}
-      {overlay && !directing &&
+      {overlay && !directing && selectedRank &&
         <RankOverlay
           selectedRank={selectedRank}
           onClose={handleMapClick}
@@ -259,7 +271,7 @@ const HomeScreen = ({ navigation }) => {
         />
       }
 
-      {directing &&
+      {directing && selectedRank &&
         <DirectionOverlay selectedRank={selectedRank} onClose={handleMapClick} />
       }
 
