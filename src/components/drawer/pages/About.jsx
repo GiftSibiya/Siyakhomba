@@ -21,6 +21,7 @@ export default function About() {
           <SettingMenu name={"Privacy"} description={""}/>
         </View>
       </View>
+      <Text className='m-auto text-slate-400'>Prototype Developed By @b0b0 Gift Sibiya</Text>
     </View>
   );
 }
