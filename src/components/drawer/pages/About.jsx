@@ -1,6 +1,7 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
-import { StatusBar } from "expo-status-bar";
+
+// Components
 import SettingMenu from "../../utils/settings/SettingMenu";
 
 
