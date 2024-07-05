@@ -12,7 +12,7 @@ export default function Settings() {
       <View className='p-[10px]'>
         <Text className='text-xl font-semibold'>Setting</Text>
         <View className='flex flex-row items-center justify-around mt-[10px] w-[100%] h-[80px]'>
-          <View className='h-[50px] w-[50px] rounded-full border-2 border-black' ></View>
+          <View className='h-[70px] w-[70px] rounded-full border-2 border-black' ></View>
           <View className='flex flex-col' >
             <Text className='font-semibold'>User Name</Text>
             <Text>071 234 5678</Text>
@@ -36,6 +36,7 @@ export default function Settings() {
         </View>
       </View>
         <Text className='text-lg mx-auto text-red-600 font-semibold '>Sign Out</Text>
+        <Text className='mx-auto text-slate-400'>Siyakhomba V0.0.0 Prototype</Text>
     </View>
   );
 }
