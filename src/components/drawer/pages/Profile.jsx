@@ -6,6 +6,9 @@ import { useNavigation } from "@react-navigation/native";
 import arrowIcon from "../../../../assets/icons/icons8-arrow-50.png";
 import SettingMenu from '../../utils/settings/SettingMenu';
 
+// Images 
+import proPic from '../../../../assets/images/propic.jpg'
+
 const Profile = () => {
     const navigation = useNavigation();
 
@@ -26,7 +29,9 @@ const Profile = () => {
             {/* Main Card */}
             <View className='w-[100%] top-[-20%] flex flex-row justify-center z-20'>
                 <View className='absolute bg-slate-100 flex flex-col items-center rounded-2xl h-[200px] w-[90%]'>
-                    <View className='top-[-60px] border-2 border-black w-[100px] h-[100px] rounded-2xl '></View>
+                    <View className='top-[-60px] border-2 border-black w-[100px] h-[100px] rounded-2xl '>
+                        <Image className='object-contain w-[100%] h-[100%] overflow-hidden rounded-lg' source={proPic}/>
+                    </View>
                     <View className=' top-[-40px]'>
                         <Text className='text-lg'>User Name</Text>
                     </View>
