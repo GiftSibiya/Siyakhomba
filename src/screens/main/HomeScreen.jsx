@@ -14,18 +14,21 @@ import rankData from "../../../assets/json/RankData.json";
 // Icons
 import menuImg from "../../../assets/icons/icons8-hamburger-menu-50.png";
 import locateIcon from "../../../assets/icons/icons8-location-100.png";
-import mapMarker from "../../../assets/icons/icons8-full-stop-100.png";
+import mapMarker from "../../../assets/icons/icons8-circle-64.png";
 import rankIcon from "../../../assets/icons/map/rankIcon.png";
 import searchIcon from "../../../assets/icons/icons8-search-100.png";
 
 // Components
 import SideDrawerComp from "../../components/drawer/SideDrawerComp";
+import DirectionOverlay from "../../components/utils/DirectionOverlay";
+import SearchedDestinations from "../../components/utils/SearchedDestinations";
+
+//Pages
 import Settings from "../../components/drawer/pages/Settings";
 import MyTrips from "../../components/drawer/pages/MyTrips";
 import Support from "../../components/drawer/pages/Support";
 import About from "../../components/drawer/pages/About";
-import DirectionOverlay from "../../components/utils/DirectionOverlay";
-import SearchedDestinations from "../../components/utils/SearchedDestinations";
+import Profile from '../../components/drawer/pages/Profile'
 
 const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
@@ -178,19 +181,19 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View className='flex-1'>
       <MapView
         ref={mapRef}
-        style={{ flex: 1 }}
+        className='flex-1'
         showsCompass={true}
         followsUserLocation={true}
         onPress={handleMapClick}
         initialRegion={location ? {
           latitude: location.latitude, longitude: location.longitude,
-          latitudeDelta: 0.0922, longitudeDelta: 0.0421
+          latitudeDelta: 0.15, longitudeDelta: 0.15
         } : {
           latitude: -25.98953, longitude: 28.12843,
-          latitudeDelta: 0.0922, longitudeDelta: 0.0421
+          latitudeDelta: 0.15, longitudeDelta: 0.15
         }}>
 
         {/* Map Routing */}
@@ -215,28 +218,30 @@ const HomeScreen = ({ navigation }) => {
               title={RankData.name}
               description={`Active Time: ${RankData.activeTime}`}
               onPress={() => handleMarkerPress(RankData)}>
-              <Image source={rankIcon} style={{ height: 30, width: 30 }} />
+              <Image source={rankIcon} className='h-[30px] w-[30px]' />
             </Marker>
           ) : null
         ))}
       </MapView>
 
       {/* Side Menu Component */}
-      <View style={{ position: 'absolute', top: 50, width: '100%', height: 100, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', width: '95%' }}>
+      <View className='absolute top-[5%] w-[100%] h-[100px] flex flex-row items-center justify-center' >
+        <View className='flex flex-row items-center w-[95%]'>
           <TouchableOpacity
             onPress={() => navigation.toggleDrawer()}
-            style={{ width: 50, height: 50, backgroundColor: 'white', borderWidth: 2, borderColor: 'black', borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}>
-            <Image source={menuImg} style={{ width: 25, height: 25 }} />
+            className='w-[50px] h-[50px] bg-white border-2 border-black rounded-full justify-center items-center'>
+            <Image source={menuImg} className='w-[25px] h-[25px]'/>
           </TouchableOpacity>
-          <View style={{ flexDirection: 'row', alignItems: 'center', width: '80%', borderRadius: 30, padding: 10, borderWidth: 2, marginLeft: 10, borderColor: 'black', backgroundColor: 'white' }}>
-            <Image source={searchIcon} style={{ height: 30, width: 30 }} />
+
+          {/* Search Bar */}
+          <View className='flex flex-row items-center w-[80%] rounded-xl p-[10px] border-2 ml-[10px] border-black bg-white '>
+            <Image source={searchIcon} className='h-[30px] w-[30px]'/>
             <TextInput
-              ref={textInputRef} // Assign ref to TextInput
+              ref={textInputRef}
               placeholder="Where To?"
-              style={{ flex: 1, paddingLeft: 10, fontSize: 18, fontWeight: 'bold' }} // Add styles to the TextInput
-              onChangeText={handleInputChange} // Capture input change
-              onFocus={handleInputTouch} // Handle touch focus
+              onFocus={handleInputTouch}
+              onChangeText={handleInputChange}
+              className='flex-1 pl-[10px] text-lg font-semibold'
             />
           </View>
         </View>
@@ -244,20 +249,20 @@ const HomeScreen = ({ navigation }) => {
 
       {/* Search Results Overlay */}
       {searchOverlay && (
-        <View style={{ position: 'absolute', top: 130, width: '100%', maxHeight: 200 }}>
+        <View className='absolute top-[130px] w-full h-[130px]'>
           <FlatList
             data={searchResults}
             renderItem={renderResult}
             keyExtractor={(item) => item.rank_id.toString()}
-            style={{ backgroundColor: 'white', width: '90%', alignSelf: 'center', borderRadius: 10 }}
+            className='bg-white w-[90%] rounded-lg self-center '
           />
         </View>
       )}
 
       {/* User Location Icon */}
-      <View style={{ position: 'absolute', bottom: 120, right: 20 }}>
-        <TouchableOpacity onPress={centerMapOnUser} style={{ width: 50, height: 50, backgroundColor: 'white', borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}>
-          <Image source={locateIcon} style={{ width: 30, height: 30 }} />
+      <View className='absolute bottom-[120px] right-[20px]'>
+        <TouchableOpacity onPress={centerMapOnUser} className='w-[50px] h-[50px] bg-white rounded-xl justify-center items-center border-2 border-black' >
+          <Image source={locateIcon} className='w-[30px] h-[30px]'/>
         </TouchableOpacity>
       </View>
 
@@ -267,7 +272,7 @@ const HomeScreen = ({ navigation }) => {
 
       {/* Bottom Sheet Navigator */}
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        <BottomSheetView style={{ flex: 1, alignItems: 'center' }}>
+        <BottomSheetView className='flex-1 items-center' >
           <BtmDrawer selectedRank={selectedRank}
           onNavigate={handleRouting} />
         </BottomSheetView>
@@ -286,6 +291,7 @@ const AppDrawer = () => {
       <Drawer.Screen name="MyTrips" component={MyTrips} options={{ headerShown: false }} />
       <Drawer.Screen name="Support" component={Support} options={{ headerShown: false }} />
       <Drawer.Screen name="About" component={About} options={{ headerShown: false }} />
+      <Drawer.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
     </Drawer.Navigator>
   );
 };
