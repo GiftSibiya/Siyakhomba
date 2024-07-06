@@ -1,16 +1,32 @@
-import { View, Text} from "react-native";
 import React from "react";
+import { View, Text, Image} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 // Components
 import SettingMenu from "../../utils/settings/SettingMenu";
+import { ScrollView } from "react-native-gesture-handler";
 
-
+import arrowIcon from "../../../../assets/icons/icons8-arrow-50.png"
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
 
 export default function Settings() {
+  const navigation = useNavigation();
+  
+  const handleNavigateToHome = () => {
+    navigation.navigate('Home'); // Use 'navigate' to go to the 'Home' screen
+  };
+
+
   return (
-    <View className=" flex w-[100%] h-full mt-[30px]">
-      <View className='p-[10px]'>
+    <View className=" flex w-[100%]  mt-[30px]">
+      <ScrollView className=''>
+      <View className='p-[20px]'>
+        <View className='flex flex-row'>
+          <TouchableOpacity onPress={handleNavigateToHome}>
+            <Image className='h-[30px] w-[30px] mr-[10px]' source={arrowIcon} />
+          </TouchableOpacity>
         <Text className='text-xl font-semibold'>Setting</Text>
+        </View>
         <View className='flex flex-row items-center justify-around mt-[10px] w-[100%] h-[80px]'>
           <View className='h-[70px] w-[70px] rounded-full border-2 border-black' ></View>
           <View className='flex flex-col' >
@@ -35,8 +51,11 @@ export default function Settings() {
           <SettingMenu name={"Safety Tools"} description={"Mange You rSafety Tools"}/>
         </View>
       </View>
+      <View>
         <Text className='text-lg mx-auto text-red-600 font-semibold '>Sign Out</Text>
         <Text className='mx-auto text-slate-400'>Siyakhomba V0.0.0 Prototype</Text>
+      </View>
+      </ScrollView>
     </View>
   );
 }
