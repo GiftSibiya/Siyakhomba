@@ -171,6 +171,7 @@ const HomeScreen = ({ navigation }) => {
 
   const handleInputTouch = () => {
     setSearchOverlay(true);
+    setDirecting(false)
     if (!keyboardVisible) textInputRef.current?.focus();
   };
 
@@ -247,14 +248,14 @@ const HomeScreen = ({ navigation }) => {
         </View>
       </View>
 
-      {/* Search Results Overlay */}
-      {searchOverlay && (
-        <View className='absolute top-[130px] w-full h-[130px]'>
+          {/* Search Results Overlay */}
+          {searchOverlay && (
+        <View style={{ position: 'absolute', top: 130, width: '100%', maxHeight: 200 }}>
           <FlatList
             data={searchResults}
             renderItem={renderResult}
             keyExtractor={(item) => item.rank_id.toString()}
-            className='bg-white w-[90%] rounded-lg self-center '
+            style={{ backgroundColor: 'white', width: '90%', alignSelf: 'center', borderRadius: 10 }}
           />
         </View>
       )}
