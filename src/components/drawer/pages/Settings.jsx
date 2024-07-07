@@ -1,35 +1,61 @@
-import { View, Text, Image } from "react-native";
 import React from "react";
+import { View, Text, Image} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import historyIcon from "../../../../assets/icons/icons8-history-100.png";
+// Components
+import SettingMenu from "../../utils/settings/SettingMenu";
+import { ScrollView } from "react-native-gesture-handler";
+
+import arrowIcon from "../../../../assets/icons/icons8-arrow-50.png"
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
 
 export default function Settings() {
+  const navigation = useNavigation();
+  
+  const handleNavigateToHome = () => {
+    navigation.navigate('HomeScreen'); // Use 'navigate' to go to the 'Home' screen
+  };
+
+
   return (
-    <View className="bg-slate-300 flex items-center justify-center w-[100%] h-full ">
-      <View className=" w-[90%] h-[90%]">
-        <View className="flex flex-col items-center bg-white w-full h-[100px] p-2 rounded-2xl">
-          <View className="flex flex-row mx-[20px] items-center w-full  ">
-            <View className="w-[70px] h-[70px] bg-slate-200 rounded-full"></View>
-            <View className="ml-2">
-              <Text>User Name</Text>
-              <Text className="text-blue-500">View Account with setting</Text>
-            </View>
-          </View>
-          <View className="">
-            <Text>Rating</Text>
-          </View>
+    <View className=" flex w-[100%]  mt-[30px]">
+      <ScrollView className=''>
+      <View className='p-[20px]'>
+        <View className='flex flex-row'>
+          <TouchableOpacity onPress={handleNavigateToHome}>
+            <Image className='h-[30px] w-[30px] mr-[10px]' source={arrowIcon} />
+          </TouchableOpacity>
+        <Text className='text-xl font-semibold'>Setting</Text>
         </View>
-        <View className="flex flex-col bg-white w-full h-[120px] p-2 rounded-2xl my-[20px]">
-          <View className="flex flex-row items-center m-2">
-            <Image source={historyIcon} className="w-[35px] h-[35px]" />
-            <Text className="ml-3 font-bold text-lg ">Menu 1</Text>
-          </View>
-          <View className="flex flex-row items-center m-2">
-            <Image source={historyIcon} className="w-[35px] h-[35px]" />
-            <Text className="ml-3 font-bold text-lg ">have an about Section Here</Text>
+        <View className='flex flex-row items-center justify-around mt-[10px] w-[100%] h-[80px]'>
+          <View className='h-[70px] w-[70px] rounded-full border-2 border-black' ></View>
+          <View className='flex flex-col' >
+            <Text className='font-semibold'>User Name</Text>
+            <Text>071 234 5678</Text>
+            <Text>user.name@gmail.com</Text>
           </View>
         </View>
       </View>
+      <View className='p-2'>
+        <Text className='text-xl font-semibold'>App Setting</Text>
+        <View className='flex flex-col items-centre justify-center p-2 mt-[10px] w-[100%] '>
+          <SettingMenu name={"Add Home"} description={"Add Your Home Address"}/>
+          <SettingMenu name={"Add Work"} description={"Add Your Work Address"}/>
+          <SettingMenu name={"Appearance"} description={"Light Mode"}/>
+        </View>
+      </View>
+      <View className='p-2'>
+        <Text className='text-xl font-semibold'>Safety</Text>
+        <View className='flex flex-col items-centre justify-center p-2 mt-[10px] w-[100%] '>
+          <SettingMenu name={"Manage Trusted Contacts"} description={"Share your trip status with close friends"}/>
+          <SettingMenu name={"Safety Tools"} description={"Mange You rSafety Tools"}/>
+        </View>
+      </View>
+      <View>
+        <Text className='text-lg mx-auto text-red-600 font-semibold '>Sign Out</Text>
+        <Text className='mx-auto text-slate-400'>Siyakhomba V0.0.0 Prototype</Text>
+      </View>
+      </ScrollView>
     </View>
   );
 }

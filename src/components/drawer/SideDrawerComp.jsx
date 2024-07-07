@@ -3,7 +3,6 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
 
 // Icons
-import historyIcon from "../../../assets/icons/icons8-history-100.png";
 import settingsIcon from "../../../assets/icons/icons8-settings-100.png"
 import infoIcon from "../../../assets/icons/icons8-info-100.png"
 import myTrips from "../../../assets/icons/icons8-save-close-100.png"
@@ -25,7 +24,7 @@ const SideDrawerComp = () => {
             <View className="w-[70px] h-[70px] bg-slate-200 rounded-full"></View>
             <View className="ml-2">
               <Text>User Name</Text>
-              <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                 <Text className="text-blue-500">View Account</Text>
               </TouchableOpacity>
             </View>
