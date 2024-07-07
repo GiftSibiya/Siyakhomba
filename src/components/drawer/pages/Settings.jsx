@@ -1,13 +1,17 @@
 import React from "react";
 import { View, Text, Image} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
 
 // Components
 import SettingMenu from "../../utils/settings/SettingMenu";
 import { ScrollView } from "react-native-gesture-handler";
 
+// Icons 
 import arrowIcon from "../../../../assets/icons/icons8-arrow-50.png"
-import { TouchableOpacity } from "@gorhom/bottom-sheet";
+
+// Images
+import proPic from '../../../../assets/images/propic.jpg'
 
 export default function Settings() {
   const navigation = useNavigation();
@@ -28,9 +32,11 @@ export default function Settings() {
         <Text className='text-xl font-semibold'>Setting</Text>
         </View>
         <View className='flex flex-row items-center justify-around mt-[10px] w-[100%] h-[80px]'>
-          <View className='h-[70px] w-[70px] rounded-full border-2 border-black' ></View>
+          <View className='h-[70px] w-[70px] rounded-full border-2 border-black' >
+            <Image className='w-full h-full rounded-full' source={proPic}/>
+          </View>
           <View className='flex flex-col' >
-            <Text className='font-semibold'>User Name</Text>
+            <Text className='font-semibold'>John Davis</Text>
             <Text>071 234 5678</Text>
             <Text>user.name@gmail.com</Text>
           </View>

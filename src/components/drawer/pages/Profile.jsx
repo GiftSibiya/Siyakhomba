@@ -33,7 +33,7 @@ const Profile = () => {
                         <Image className='object-contain w-[100%] h-[100%] overflow-hidden rounded-lg' source={proPic}/>
                     </View>
                     <View className=' top-[-40px]'>
-                        <Text className='text-lg'>User Name</Text>
+                        <Text className='text-lg'>John Davis</Text>
                     </View>
 
                     <View className='flex flex-row justify-around items-center h-[40%] w-[95%] border-t-[1px] p-2 top-[-20px] border-slate-400'>
@@ -57,6 +57,8 @@ const Profile = () => {
                 <View>
                     <SettingMenu name={"Change Password"} />
                     <SettingMenu name={"Contact Details"} />
+                    <SettingMenu name={"Email"} description={'JohnDavis@gmail.com'} />
+                    <SettingMenu name={"Phone"} description={'071 234 5678'} />
                 </View>
                 </View>
             </View>
