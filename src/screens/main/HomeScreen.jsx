@@ -44,6 +44,9 @@ const HomeScreen = ({ navigation }) => {
   const [directing, setDirecting] = useState(false);
   const [searchOverlay, setSearchOverlay] = useState(false);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [destinationCoords, setDestinationCoords] = useState(null); // New state for destination coordinates
+
+  
 
   // Search Stuff
   const [inputValue, setInputValue] = useState(''); // State to hold input value
@@ -72,6 +75,28 @@ const HomeScreen = ({ navigation }) => {
     });
   
     setSearchResults(results); // Update search results state
+  };
+
+  const handleDestinationSelect = (location) => {
+    if (location && location._lat && location._long) {
+      setDestinationCoords({
+        latitude: location._lat,
+        longitude: location._long,
+      });
+      setRoute(true);
+    } else {
+      console.log("Invalid coordinates for destination" + JSON.stringify(location) ) ;
+    }
+  };
+
+  const handleNavigate = () => {
+    if (selectedRank?.coordinates) {
+      setDestinationCoords({
+        latitude: selectedRank.coordinates._lat,
+        longitude: selectedRank.coordinates._long,
+      });
+      setRoute(true);
+    }
   };
   
   const renderResult = ({ item }) => {
@@ -200,12 +225,15 @@ const HomeScreen = ({ navigation }) => {
         {/* Map Routing */}
         {route && location && selectedRank?.coordinates && (
           <MapViewDirections
-            origin={{ latitude: location.latitude, longitude: location.longitude }}
-            destination={{ latitude: selectedRank.coordinates._lat, longitude: selectedRank.coordinates._long }}
-            apikey={GOOGLE_MAPS_APIKEY}
-            strokeWidth={3}
-            strokeColor="blue"
-          />
+          origin={{
+            latitude: selectedRank.coordinates._lat,
+            longitude: selectedRank.coordinates._long,
+          }}
+          destination={destinationCoords}
+          apikey={GOOGLE_MAPS_APIKEY}
+          strokeWidth={3}
+          strokeColor="blue"
+        />
         )}
 
         {location && (
@@ -275,6 +303,7 @@ const HomeScreen = ({ navigation }) => {
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         <BottomSheetView className='flex-1 items-center' >
           <BtmDrawer selectedRank={selectedRank}
+          onDestinationSelect={handleDestinationSelect}
           onNavigate={handleRouting} />
         </BottomSheetView>
       </BottomSheet>
@@ -287,7 +316,7 @@ const Drawer = createDrawerNavigator();
 const AppDrawer = () => {
   return (
     <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideDrawerComp {...props} />}>
-      <Drawer.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <Drawer.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
       <Drawer.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
       <Drawer.Screen name="MyTrips" component={MyTrips} options={{ headerShown: false }} />
       <Drawer.Screen name="Support" component={Support} options={{ headerShown: false }} />

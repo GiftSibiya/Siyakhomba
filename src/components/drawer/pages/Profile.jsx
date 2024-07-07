@@ -13,7 +13,7 @@ const Profile = () => {
     const navigation = useNavigation();
 
     const handleNavigateToHome = () => {
-        navigation.navigate('Home');
+        navigation.navigate('HomeScreen');
         };
 
     return (

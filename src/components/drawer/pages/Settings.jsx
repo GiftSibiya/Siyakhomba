@@ -13,7 +13,7 @@ export default function Settings() {
   const navigation = useNavigation();
   
   const handleNavigateToHome = () => {
-    navigation.navigate('Home'); // Use 'navigate' to go to the 'Home' screen
+    navigation.navigate('HomeScreen'); // Use 'navigate' to go to the 'Home' screen
   };
 
 

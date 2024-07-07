@@ -11,42 +11,42 @@
         {
           "name" : "Oakmore Taxi Rank",
           "price" : 20,
-          "location ": {"_lat": -26.006376,"_long": 28.249306}
+          "location": {"_lat": -26.006376,"_long": 28.249306}
         },
         {
           "name" : "Pretoria Taxi Rank",
           "price" : 25,
-          "location ":{"_lat": -25.744881, "long": 28.192783}
+          "location":{"_lat": -25.744881, "_long": 28.192783}
         },
         {
           "name" : "Midrand Half Way House Taxi Rank",
           "price" : 20,
-          "location ":{"_lat": -25.744881, "long": 28.192783}
+          "location":{"_lat": -25.744881, "_long": 28.192783}
         },
         {
           "name" : "MTN Noord Taxi Rank",
           "price" : 28,
-          "location ": {"_lat": -26.198952, "_long": 28.048032}
+          "location": {"_lat": -26.198952, "_long": 28.048032}
         },
         {
           "name" : "Oakmore Taxi Rank",
           "price" : 20,
-          "location ": {"_lat": -26.006376,"_long": 28.249306}
+          "location": {"_lat": -26.006376,"_long": 28.249306}
         },
         {
           "name" : "Pretoria Taxi Rank",
           "price" : 25,
-          "location ":{"_lat": -25.744881, "long": 28.192783}
+          "location":{"_lat": -25.744881, "_long": 28.192783}
         },
         {
           "name" : "Midrand Half Way House Taxi Rank",
           "price" : 20,
-          "location ":{"_lat": -25.744881, "long": 28.192783}
+          "location":{"_lat": -25.744881, "_long": 28.192783}
         },
         {
           "name" : "MTN Noord Taxi Rank",
           "price" : 28,
-          "location ": {"_lat": -26.198952, "_long": 28.048032}
+          "location": {"_lat": -26.198952, "_long": 28.048032}
         }
        
       ]
@@ -63,22 +63,22 @@
         {
           "name" : "Pretoria Taxi Rank",
           "price" : 25,
-          "location ":{"_lat": -25.744881, "long": 28.192783}
+          "location":{"_lat": -25.744881, "_long": 28.192783}
         },
         {
           "name" : "Oakmore Taxi Rank",
           "price" : 20,
-          "location ": {"_lat": -26.006376,"_long": 28.249306}
+          "location":{"_lat": -25.744881, "_long": 28.192783}
         },
         {
           "name" : "Tester",
           "price" : 20,
-          "location ": {"_lat": -26.006376,"_long": 28.249306}
+          "location":{"_lat": -25.744881, "_long": 28.192783}
         },
         {
           "name" : "MTN Noord Taxi Rank",
           "price" : 28,
-          "location ": {"_lat": -26.198952, "_long": 28.048032}
+          "location":{"_lat": -25.744881, "_long": 28.192783}
         }
       ]
     },
@@ -92,14 +92,44 @@
       },
       "destinations":[
         {
+          "name" : "Brits",
+          "price" : 30,
+          "location": {"_lat": -25.639961, "_long": 27.779541} 
+        },
+        {
+          "name" : "Ga-Rankuwa",
+          "price" : 30,
+          "location": {"_lat": -26.198952, "_long": 28.048032}
+        },
+        {
+          "name" : "Hannabskraal",
+          "price" : 50,
+          "location": {"_lat": -26.198952, "_long": 28.048032}
+        },
+        {
+          "name" : "Nabopane",
+          "price" : 28,
+          "location": {"_lat": -26.198952, "_long": 28.048032}
+        },
+        {
+          "name" : "Mamelodi",
+          "price" : 28,
+          "location": {"_lat": -26.198952, "_long": 28.048032}
+        },
+        {
+          "name" : "Soshanguve",
+          "price" : 28,
+          "location": {"_lat": -26.198952, "_long": 28.048032}
+        },
+        {
           "name" : "MTN Noord Taxi Rank",
           "price" : 28,
-          "location ": {"_lat": -26.198952, "_long": 28.048032}
+          "location": {"_lat": -26.198952, "_long": 28.048032}
         },
         {
           "name" : "Oakmore Taxi Rank",
           "price" : 20,
-          "location ": {"_lat": -26.006376,"_long": 28.249306}
+          "location": {"_lat": -26.006376,"_long": 28.249306}
         }
       ]
     },
@@ -115,17 +145,17 @@
         {
           "name" : "Pretoria Taxi Rank",
           "price" : 25,
-          "location ":{"_lat": -25.744881, "long": 28.192783}
+          "location":{"_lat": -25.744881, "_long": 28.192783}
         },
         {
           "name" : "MTN Noord Taxi Rank",
           "price" : 28,
-          "location ": {"_lat": -26.198952, "_long": 28.048032}
+          "location": {"_lat": -26.198952, "_long": 28.048032}
         },
         {
           "name" : "Oakmore Taxi Rank",
           "price" : 20,
-          "location ": {"_lat": -26.006376, "_long": 28.249306}
+          "location": {"_lat": -26.006376, "_long": 28.249306}
         }
       ]
     },
@@ -141,12 +171,12 @@
         {
           "name" : "Pretoria Taxi Rank",
           "price" : 35,
-          "location ":{"_lat": -25.744881, "long": 28.192783}
+          "location":{"_lat": -25.744881, "_long": 28.192783}
         },
         {
           "name" : "Oakmore Taxi Rank",
           "price" : 20,
-          "location ": {"_lat": -26.006376,"_long": 28.249306}
+          "location": {"_lat": -26.006376,"_long": 28.249306}
         }
       ]
     }
