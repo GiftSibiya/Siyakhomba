@@ -34,13 +34,14 @@ const HomeScreen = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
   const mapRef = useRef(null);
   const textInputRef = useRef(null); // Added ref for TextInput
-  const snapPoints = useMemo(() => ["13%", "25%", "55%"], []);
+  const snapPoints = useMemo(() => ["13%", "25%", "50%"], []);
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [selectedRank, setSelectedRank] = useState(null);
   const [overlay, setOverlay] = useState(false);
-  const [route, setRoute] = useState(false);
+  const [locationRoute, setLocationRoute] = useState(false);
+  const [rankRoute, setRankRoute] = useState(false);
   const [directing, setDirecting] = useState(false);
   const [searchOverlay, setSearchOverlay] = useState(false);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
@@ -83,7 +84,8 @@ const HomeScreen = ({ navigation }) => {
         latitude: location._lat,
         longitude: location._long,
       });
-      setRoute(true);
+      setLocationRoute(false)
+      setRankRoute(true);
     } else {
       console.log("Invalid coordinates for destination" + JSON.stringify(location) ) ;
     }
@@ -95,7 +97,7 @@ const HomeScreen = ({ navigation }) => {
         latitude: selectedRank.coordinates._lat,
         longitude: selectedRank.coordinates._long,
       });
-      setRoute(true);
+      setLocationRoute(true);
     }
   };
   
@@ -164,11 +166,11 @@ const HomeScreen = ({ navigation }) => {
   const centerMapOnMarker = (latitude, longitude) => {
     if (!mapRef.current) return;
 
-    const offset = -0.020; // Adjust this value as needed
+    const offset = -0; // Adjust this value as needed
     mapRef.current.animateToRegion({
       latitude: latitude - offset,
       longitude: longitude,
-      latitudeDelta: 0.0922,
+      latitudeDelta: 0.09,
       longitudeDelta: 0.0421,
     }, 1000);
   };
@@ -189,9 +191,10 @@ const HomeScreen = ({ navigation }) => {
   const handleMapClick = () => {
     setOverlay(false);
     setSelectedRank(null);
-    setRoute(false);
+    setLocationRoute(false);
     setDirecting(false);
     setSearchOverlay(false);
+    setDestinationCoords(null)
   };
 
   const handleInputTouch = () => {
@@ -202,8 +205,10 @@ const HomeScreen = ({ navigation }) => {
 
   const handleRouting = async () => {
     if (!location || !selectedRank?.coordinates) return;
-    setRoute(true);
+    setLocationRoute(true);
+    setRankRoute(false)
     setDirecting(true);
+    console.log("handle routing called ")
   };
 
   return (
@@ -222,18 +227,26 @@ const HomeScreen = ({ navigation }) => {
           latitudeDelta: 0.15, longitudeDelta: 0.15
         }}>
 
-        {/* Map Routing */}
-        {route && location && selectedRank?.coordinates && (
+        {/* Map Routing From Location to rank*/}
+        {locationRoute && location && selectedRank?.coordinates && (
           <MapViewDirections
-          origin={{
-            latitude: selectedRank.coordinates._lat,
-            longitude: selectedRank.coordinates._long,
-          }}
+          origin={{latitude: location.latitude,longitude: location.longitude,}}
+          destination={{ latitude: selectedRank.coordinates._lat, longitude: selectedRank.coordinates._long }}
+          apikey={GOOGLE_MAPS_APIKEY}
+          strokeWidth={3}
+          strokeColor="blue"
+          />
+        )}
+
+        {/* Map Routing From Rank To Destination*/}
+        {rankRoute && location && destinationCoords && (
+          <MapViewDirections
+          origin={{latitude: selectedRank.coordinates._lat,longitude: selectedRank.coordinates._long,}}
           destination={destinationCoords}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
           strokeColor="blue"
-        />
+          />
         )}
 
         {location && (
@@ -294,11 +307,7 @@ const HomeScreen = ({ navigation }) => {
           <Image source={locateIcon} className='w-[30px] h-[30px]'/>
         </TouchableOpacity>
       </View>
-
-      {directing && selectedRank &&
-        <DirectionOverlay selectedRank={selectedRank} onClose={handleMapClick} />
-      }
-
+      
       {/* Bottom Sheet Navigator */}
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         <BottomSheetView className='flex-1 items-center' >

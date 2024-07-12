@@ -34,14 +34,9 @@
           "location": {"_lat": -26.006376,"_long": 28.249306}
         },
         {
-          "name" : "Pretoria Taxi Rank",
-          "price" : 25,
-          "location":{"_lat": -25.744881, "_long": 28.192783}
-        },
-        {
           "name" : "Midrand Half Way House Taxi Rank",
           "price" : 20,
-          "location":{"_lat": -25.744881, "_long": 28.192783}
+          "location":{"_lat": -25.997827, "_long": 28.128360}
         },
         {
           "name" : "MTN Noord Taxi Rank",
@@ -63,7 +58,7 @@
         {
           "name" : "Pretoria Taxi Rank",
           "price" : 25,
-          "location":{"_lat": -25.744881, "_long": 28.192783}
+          "location":{"_lat": -25.744881, "_long": 28.192783} 
         },
         {
           "name" : "Oakmore Taxi Rank",
@@ -71,14 +66,19 @@
           "location":{"_lat": -25.744881, "_long": 28.192783}
         },
         {
-          "name" : "Tester",
-          "price" : 20,
-          "location":{"_lat": -25.744881, "_long": 28.192783}
-        },
-        {
           "name" : "MTN Noord Taxi Rank",
           "price" : 28,
           "location":{"_lat": -25.744881, "_long": 28.192783}
+        },
+        {
+          "name" : "Ivory Park Taxi Rank",
+          "price" : 25,
+          "location":{"_lat": -26.007124,"_long": 28.182973}
+        },
+        {
+          "name" : "Midrand Half Way House Taxi Rank",
+          "price" : 23,
+          "location":{"_lat": -25.997827, "_long": 28.128360}
         }
       ]
     },
@@ -130,6 +130,16 @@
           "name" : "Oakmore Taxi Rank",
           "price" : 20,
           "location": {"_lat": -26.006376,"_long": 28.249306}
+        },
+        {
+          "name" : "Ivory Park Taxi Rank",
+          "price" : 30,
+          "location":{"_lat": -26.007124,"_long": 28.182973}
+        },
+        {
+          "name" : "Midrand Half Way House Taxi Rank",
+          "price" : 28,
+          "location":{"_lat": -25.997827, "_long": 28.128360}
         }
       ]
     },
@@ -145,7 +155,7 @@
         {
           "name" : "Pretoria Taxi Rank",
           "price" : 25,
-          "location":{"_lat": -25.744881, "_long": 28.192783}
+          "location":{"_lat": -25.744881, "_long": 28.192783} 
         },
         {
           "name" : "MTN Noord Taxi Rank",
@@ -156,6 +166,16 @@
           "name" : "Oakmore Taxi Rank",
           "price" : 20,
           "location": {"_lat": -26.006376, "_long": 28.249306}
+        },
+        {
+          "name" : "Ivory Park Taxi Rank",
+          "price" : 28,
+          "location":{"_lat": -26.007124,"_long": 28.182973}
+        },
+        {
+          "name" : "Midrand Half Way House Taxi Rank",
+          "price" : 23,
+          "location":{"_lat": -25.997827, "_long": 28.128360}
         }
       ]
     },
@@ -177,7 +197,305 @@
           "name" : "Oakmore Taxi Rank",
           "price" : 20,
           "location": {"_lat": -26.006376,"_long": 28.249306}
+        },
+        {
+          "name" : "Ivory Park Taxi Rank",
+          "price" : 30,
+          "location":{"_lat": -26.007124,"_long": 28.182973}
+        },
+        {
+          "name" : "Midrand Half Way House Taxi Rank",
+          "price" : 23,
+          "location":{"_lat": -25.997827, "_long": 28.128360}
         }
+      ]
+    },
+    {
+      "rank_id": 6,
+      "name": "Catwright Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -29.851307, 
+        "_long": 31.018894
+      },
+      "destinations":[
+
+      ]
+    },
+    {
+      "rank_id": 7,
+      "name": "KwaMashu Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -29.853319,  
+        "_long": 31.020526
+      },
+      "destinations":[
+ 
+      ]
+    },
+    {
+      "rank_id": 8,
+      "name": "Umzinto Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -30.254983, 
+        "_long": 30.718531
+      },
+      "destinations":[
+
+      ]
+    },
+    {
+      "rank_id": 9,
+      "name": "Cawood Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -33.949410, 
+        "_long": 25.607731
+      },
+      "destinations":[
+
+      ]
+    },
+    {
+      "rank_id": 10,
+      "name": "Thembalethu Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -34.000461,  
+        "_long":  22.478877
+      },
+      "destinations":[
+
+      ]
+    },
+    {
+      "rank_id": 11,
+      "name": "Kuwait Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -34.015392, 
+        "_long":  18.648436
+      },
+      "destinations":[
+
+      ]
+    },
+    {
+      "rank_id": 12,
+      "name": "Kuwait Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -33.994022, 
+        "_long": 18.673112
+      },
+      "destinations":[
+
+      ]
+    },
+    {
+      "rank_id": 13,
+      "name": "Sowesto Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -29.118239, 
+        "_long": 26.221631
+      },
+      "destinations":[
+
+      ]
+    },
+    {
+      "rank_id": 14,
+      "name": "Tempe Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -29.097868, 
+        "_long": 26.188415
+      },
+      "destinations":[
+
+      ]
+    },
+    {
+      "rank_id": 15,
+      "name": "Newcastle Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -27.752178, 
+        "_long": 29.929284
+      },
+      "destinations":[
+
+      ]
+    }
+    ,{
+      "rank_id": 16,
+      "name": "Newcastle Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat":-32.966085, 
+        "_long":27.940315
+      },
+      "destinations":[
+
+      ]
+    }
+    ,{
+      "rank_id": 17,
+      "name": "Esigingqini Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat":-33.007048, 
+        "_long": 27.895958
+      },
+      "destinations":[
+
+      ]
+    }
+    ,{
+      "rank_id": 18,
+      "name": "Komani Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -31.901920, 
+        "_long": 26.871610
+      },
+      "destinations":[
+
+      ]
+    }
+    ,{
+      "rank_id": 19,
+      "name": "Tonga Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -25.688017,
+        "_long":  31.782534
+      },
+      "destinations":[
+
+      ]
+    }
+    ,{
+      "rank_id": 20,
+      "name": "PhosaVille Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -25.638007, 
+        "_long": 31.679186
+      },
+      "destinations":[
+
+      ]
+    }
+    ,{
+      "rank_id": 21,
+      "name": "The Oaks Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -24.360655,
+        "_long":  30.667251
+      },
+      "destinations":[
+
+      ]
+    }
+    ,{
+      "rank_id": 22,
+      "name": "Praktiseer Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -24.581557, 
+        "_long": 30.324418
+      },
+      "destinations":[
+
+      ]
+    }
+    ,{
+      "rank_id": 23,
+      "name": "Schoonoord Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -24.753196, 
+        "_long": 30.011695
+      },
+      "destinations":[
+
+      ]
+    }
+    ,{
+      "rank_id": 24,
+      "name": "Kwa Mhlanga Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -25.401066, 
+        "_long": 28.722246
+      },
+      "destinations":[
+       
+      ]
+    }
+    ,{
+      "rank_id": 25,
+      "name": "Potchefstroom Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -26.712933, 
+        "_long": 27.100691
+      },
+      "destinations":[
+       
+      ]
+    }
+    ,{
+      "rank_id": 26,
+      "name": "Klerksdorp Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -26.864298, 
+        "_long": 26.661335
+      },
+      "destinations":[
+       
+      ]
+    }
+    ,{
+      "rank_id": 27,
+      "name": "Hartswater Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -27.754271, 
+        "_long": 24.812600
+      },
+      "destinations":[
+       
+      ]
+    }
+    ,{
+      "rank_id": 28,
+      "name": "Pampierstad Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -27.780073, 
+        "_long":24.688492
+      },
+      "destinations":[
+       
+      ]
+    }
+    ,{
+      "rank_id": 29,
+      "name": "Vredendal Taxi Rank",
+      "activeTime": "5:30 AM - 11:30 PM",
+      "coordinates": {
+        "_lat": -31.644889, 
+        "_long": 18.528232 
+      },
+      "destinations":[
+       
       ]
     }
   ]

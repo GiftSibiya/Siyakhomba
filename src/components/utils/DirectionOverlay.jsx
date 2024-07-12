@@ -9,7 +9,7 @@ const DirectionOverlay = ({selectedRank}) => {
     }
 
   return (
-    <View className="absolute flex flex-col justify-center items-center  w-[100%] h-[25%] top-[150px]">
+    <View className="absolute flex flex-col justify-center items-center  w-[100%] h-[200px] top-[150px]">
         <View className='bg-slate-300 border-[1px] border-black rounded-xl flex items-center justify-center w-[90%] h-[70%]'>
             <View className='flex flex-row bg-slate-50 rounded-xl w-[90%] h-[40%] justify-around'>
                 <View className='flex flex-col items-center mt-1' >
